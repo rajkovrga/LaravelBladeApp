@@ -1,0 +1,186 @@
+*
+{
+    padding: 0px;
+    margin: 0px;
+    list-style: none;
+    text-decoration: none;
+
+}
+nav
+{
+    margin-bottom:51px !important;
+}
+
+.slide-img
+{
+    min-width:100% !important;
+    height: 100% !important;
+}
+
+.page-footer{
+    padding-top: 54px;
+}
+#home-page
+{
+    margin-top: -45px ;
+}
+.title
+{
+    margin-bottom: 25px;
+}
+
+.title-carousel
+{
+    position:absolute;
+    z-index: 100;
+    display:flex;
+    width:100%;
+    top:15%;
+    justify-content: center;
+}
+.carousel-item img
+{
+    height:600px !important;
+}
+.title-carousel div
+{
+
+    background: rgba(255, 255, 255, 0.589);
+    padding:10px;
+}
+.title-carousel h3{
+    font-size:2.3em !important;
+}
+
+.desc-home
+{
+    margin:20px 0px;
+    margin-bottom: 38px;
+}
+
+.verify
+{
+    padding:150px 0px;
+}
+
+#verify-title
+{
+    margin-bottom:35px;
+}
+.item-blog
+{
+    min-height: 165px !important;
+}
+
+#pagination
+{
+    padding: 20px 0px;
+}
+
+blockquote {
+    position: relative;
+    text-align: left;
+    padding: 1.2em 0 2em 38px;
+    border: none;
+    margin: 20px auto 20px;
+    max-width: 800px;
+    width:100%;
+    display: block;
+}
+
+blockquote:after {
+    content: "";
+    display: block;
+    width: 2px;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    color: #66cc66;
+    top: 0;
+    background: -moz-linear-gradient(top,#667ecc 0%,#6670cc 60%,rgba(255,255,255,0) 100%);
+    background: -webkit-linear-gradient(top,#7566cc 0%,#6681cc 60%,rgba(255,255,255,0) 100%);
+}
+
+blockquote:before {
+    content:"\f10d";
+    font-family: "fontawesome";
+    font-size: 20px;
+    display: block;
+    margin-bottom: 0.8em;
+    font-weight: 400;
+    color: #668acc;
+}
+
+blockquote > cite,
+blockquote > p > cite {
+    display: block;
+    font-size: 16px;
+    line-height: 1.3em;
+    font-weight: 700;
+    font-style: normal;
+    margin-top: 1.1em;
+    letter-spacing: 0;
+    font-style:italic;
+}
+
+.items
+{
+    padding:0px 2%;
+    width:100%;
+    margin-top:35px;
+}
+.items .item:hover
+{
+    text-decoration: none !important;
+}
+textarea{
+    resize: none;
+}
+.post-content
+{
+    margin-bottom: 30px;
+}
+.items .item span{
+
+    margin:10px;
+    padding:10px 4px;
+
+}
+#login-redirect
+{
+    padding: 15px 0px;
+}
+.image-avatar{
+    width:42px;
+    height: 42px;
+    border: 1px solid black;
+    border-radius: 50%;
+}
+.comment-box{
+    height: auto;
+    margin-bottom: 30px;
+}
+#like-button
+{
+    font-size:2em;
+}
+
+.like-button
+{
+    color:gray;
+}
+
+.liked-button
+{
+    color: #1a83ff;
+}
+@media screen and (max-width: 700px)
+{
+    .carousel-item img
+    {
+        height:420px !important;
+    }
+    .title-carousel h3{
+        font-size:1.6em !important;
+    }
+}
