@@ -40,6 +40,7 @@ class AuthController extends Controller
         catch (ModelNotFoundException $er)
         {
             Log::error($er->getMessage());
+
             return redirect('/verified')->with(['error' => 'Korisnik ne postoji ili je vec verifikovan']);
         }
         catch(Exception $er)

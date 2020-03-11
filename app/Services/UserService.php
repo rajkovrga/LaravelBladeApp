@@ -33,7 +33,10 @@ class UserService
 
     public function checkEmail($email)
     {
-        $user = User::query()->where('email','=',$email)->firstOrFail();
+        $user = User::query()->where([
+            ['email','=',$email],
+            ['email_verified_at','=',null],
+            ])->firstOrFail();
 
         if($user->email_verified_at != null){
             throw new VerifyException('Email verified');
@@ -44,7 +47,7 @@ class UserService
 
     public function verify(string $email)
     {
-        $user = User::query()->where('email',$email)->where('email_verified_at','==',null)->firstOrFail();
+        $user = User::query()->where('email','=',$email)->whereNull('email_verified_at')->firstOrFail();
 
         $user->email_verified_at = now();
 
