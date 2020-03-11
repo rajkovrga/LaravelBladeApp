@@ -33,12 +33,14 @@ class PostService
     public function comments($id, $page = 1)
     {
         $comments = DB::table('comments')->select(DB::raw('comments.desc'),
-            DB::raw('comments.id'), DB::raw('users.username'),DB::raw('users.image_url')
+            DB::raw('comments.id'), DB::raw('users.username'),DB::raw('users.image_url'),DB::raw('comment_likes.user_id as user_liked')
             ,DB::raw('count(comment_likes.comment_id) as numberLikes'))
                 ->join('users','users.id','=','comments.user_id')
             ->leftJoin('comment_likes','comment_likes.comment_id','=','comments.id')
             ->where('comments.post_id',$id)->groupBy('comments.id')
             ->orderBy('numberLikes','desc')->orderBy('comments.created_at','desc')->paginate(3,['*'],'page',$page);
+
+
 
         return $comments;
     }
@@ -75,13 +77,29 @@ class PostService
         return $post->likes_count;
     }
 
-    public function isLiked($userId, $postId)
+    public function likeComment($commentId, $userId)
     {
-
         $user = User::query()->findOrFail($userId);
 
-        $like = $user->likes()->where();
+        $like = $user->commentLikes()->attach($commentId, ['id' => $userId . $commentId]);
 
-        return true;
+        $post =  User::query()->withCount('commentLikes')->where('comment_id', $commentId);
+
+        return $post->commentLikes_count;
     }
+
+    public function unlikeComment($commentId, $userId)
+    {
+        $user = User::query()->findOrFail($userId);
+
+        $like = $user->commentLikes()->detach($commentId);
+
+        if(!$like) {
+            throw new \Exception();
+        }
+        $post =  User::query()->withCount('commentLikes');
+
+        return $post;
+    }
+
 }

@@ -65,7 +65,18 @@
                     <div class="row comment-box">
                         <div class="col-3 d-flex text-center justify-content-start align-items-center flex-column">
                             <img src="{{url('images/' .$item->image_url)}}" alt="avatar" class="image-avatar">
-                            <span>{{$item->username}} {{$item->id}} - {{$item->numberLikes}}</span>
+                            <span>{{$item->username}}   </span>
+                            <span class="d-flex justify-content-center flex-column align-items-center">
+                                <i class="heart-item fa fa-heart
+                                 @if($item->user_liked == $user_id)
+                                        heart-red
+                                 @else
+                                    heart-classic
+                                  @endif
+
+                                "  data-id="{{$item->id}}" aria-hidden="true"></i>
+                                <p id="count-comment-likes">{{$item->numberLikes}}</p>
+                            </span>
                         </div>
                         <div class="col-9 ">
                             <p> {{$item->desc}} </p>

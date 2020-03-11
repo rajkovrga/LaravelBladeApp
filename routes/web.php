@@ -35,3 +35,5 @@ Route::get('/comments/{id}/page/{page}','PostController@moreComments');
 Route::post('/create/comment/{id}','PostController@createComment');
 Route::post('/post/like','PostController@like');
 Route::post('/post/unlike','PostController@unlike');
+Route::post('/comment/like','PostController@likeComment');
+Route::post('/comment/unlike','PostController@unlikeComment');

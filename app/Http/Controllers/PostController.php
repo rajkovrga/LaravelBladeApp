@@ -8,6 +8,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Mockery\Exception;
 
 class PostController extends Controller
 {
@@ -103,7 +104,56 @@ class PostController extends Controller
         {
             Log::error($er->getMessage());
             return response()->json(['message' => 'Error'],500);
-
         }
     }
+
+    public function likeComment(Request $request)
+    {
+
+        if(!$request->session()->has('user'))
+        {
+            throw new AuthException('User not logged',403);
+        }
+
+
+        try {
+            $numberLikes = $this->postService->likeComment($request->input('id'),$request->session()->get('user')->id);
+            return response()->json(['number' => $numberLikes],200);
+        }
+        catch (AuthException $er)
+        {
+            Log::error($er->getMessage());
+            return response()->json(['message' => 'User not logged'],403);
+        }
+        catch (\Exception $er)
+        {
+            Log::error($er->getMessage());
+            return response()->json(['message' => 'Error' . $er->getMessage()],500);
+        }
+    }
+
+    public function unlikeComment(Request $request)
+    {
+        if(!$request->session()->has('user'))
+        {
+            throw new AuthException('User not logged',403);
+        }
+
+
+        try {
+            $numberLikes = $this->postService->unlikeComment($request->input('id'),$request->session()->get('user')->id);
+            return response()->json(['number' => $numberLikes],200);
+        }
+        catch (AuthException $er)
+        {
+            Log::error($er->getMessage());
+            return response()->json(['message' => 'User not logged'],403);
+        }
+        catch (\Exception $er)
+        {
+            Log::error($er->getMessage());
+            return response()->json(['message' => 'Error' . $er->getMessage()],500);
+        }
+    }
+
 }

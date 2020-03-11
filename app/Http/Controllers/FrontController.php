@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\PostService;
 use Illuminate\Http\Request;
+use Illuminate\Session;
 
 class FrontController extends Controller
 {
@@ -59,7 +60,8 @@ class FrontController extends Controller
 
         return view('pages.post')
             ->with(['data' => $this->postService->find($id, $userId),
-            'comments' => $this->postService->comments($id)]);
+            'comments' => $this->postService->comments($id),
+                'user_id' => $userId]);
     }
 
     public function profile()
