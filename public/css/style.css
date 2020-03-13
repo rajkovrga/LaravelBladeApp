@@ -201,6 +201,28 @@ color:darkred !important;
     width: 350px;
     height: 350px;
 }
+#avatar
+{
+    margin:25px 0px;
+    width: 177px;
+    height: 177px;
+    border: 2.2px solid black;
+    border-radius: 50%;
+}
+
+#form-email{
+    display: none;
+}
+
+#form-uname{
+    display: none;
+}
+
+.edit
+{
+    height: 41px;
+    margin-left: 10px;
+}
 
 @media screen and (max-width: 700px)
 {
