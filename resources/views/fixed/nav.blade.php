@@ -20,12 +20,17 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/contact">Kontakt</a>
                 </li>
-                @if(!session('user'))
+                @if(!auth()->check())
                     <li class="nav-item">
                         <a class="nav-link" href="/login">Logovanje</a>
                     </li>
                 @endif
-                @if(session('user'))
+                @if(auth()->check())
+                    @if(auth()->user()->can('update-post'))
+                        <li class="nav-item">
+                            <a class="nav-link" href="/dashboard">Admin panel</a>
+                        </li>
+                        @endif
                     <li class="nav-item">
                         <a class="nav-link" href="/profile">Profil</a>
                     </li>

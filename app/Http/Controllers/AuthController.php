@@ -35,18 +35,18 @@ class AuthController extends Controller
 
         try {
             $this->userService->verify($email);
-            return redirect('/verified')->with(['error' => 'Korisnik uspesno verifikovan','show_button'=> true]);
+            return redirect('/result')->with(['error' => 'Korisnik uspesno verifikovan','show_button'=> true]);
         }
         catch (ModelNotFoundException $er)
         {
             Log::error($er->getMessage());
 
-            return redirect('/verified')->with(['error' => 'Korisnik ne postoji ili je vec verifikovan']);
+            return redirect('/result')->with(['error' => 'Korisnik ne postoji ili je vec verifikovan']);
         }
         catch(Exception $er)
         {
             Log::error($er->getMessage());
-            return redirect('/verified')->with(['error' => 'Doslo je do greske']);
+            return redirect('/result')->with(['error' => 'Doslo je do greske']);
         }
     }
 
@@ -54,7 +54,7 @@ class AuthController extends Controller
     {
         $request->validate([
             'username' => 'required|min:6|max:20',
-            'password' => 'required|min:6|max:14',
+            'password' => 'required|min:6',
             'email' => 'required|email'
         ]);
 
@@ -67,7 +67,7 @@ class AuthController extends Controller
             ]));
 
             $user->notify((new VerifyNofify($user->email))->delay(now()->addSeconds(4)));
-
+            $user->assignRole('user');
             return redirect('/login')->with(['error' => 'Verifikujte Vas nalog']);
 
         }
@@ -124,7 +124,7 @@ class AuthController extends Controller
         {
             $user = $this->userService->login($request->input('login_email'),$request->input('login_password'));
 
-            $request->session()->put('user',$user);
+            auth()->login($user);
             return redirect('/');
         }
         catch(ModelNotFoundException $er)
@@ -153,10 +153,9 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         try {
-            if($request->session()->has('user'))
+            if(auth()->check())
             {
-                $request->session()->forget('user');
-                $request->session()->flush();
+                auth()->logout();
             }
             return redirect('/login');
         }

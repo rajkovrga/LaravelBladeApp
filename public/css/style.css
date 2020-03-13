@@ -158,7 +158,13 @@ textarea{
 }
 .comment-box{
     height: auto;
+    width:100% !important;
     margin-bottom: 30px;
+}
+.form-comment{
+    padding-left: 5%;
+    padding-right: 5%;
+    width:100% !important;
 }
 #like-button
 {
@@ -189,6 +195,13 @@ color:darkred !important;
     color:grey !important;
 }
 
+#notfound-img
+{
+    margin-bottom: 30px;
+    width: 350px;
+    height: 350px;
+}
+
 @media screen and (max-width: 700px)
 {
     .carousel-item img
@@ -197,5 +210,13 @@ color:darkred !important;
     }
     .title-carousel h3{
         font-size:1.6em !important;
+    }
+}
+@media screen and (max-width: 360px)
+{
+    #notfound-img
+    {
+        width: 250px;
+        height: 250px;
     }
 }

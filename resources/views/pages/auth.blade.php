@@ -4,7 +4,6 @@
 
 @section('content')
 
-
 <div class="row auth-page d-flex flex-wrap justify-content-around">
     <div class="col-10 col-sm-5">
         <div class="text-center">

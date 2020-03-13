@@ -3,7 +3,14 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Validation\UnauthorizedException;
+use Symfony\Component\CssSelector\Exception\InternalErrorException;
+use Symfony\Component\Finder\Exception\AccessDeniedException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -50,6 +57,24 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+
+//        if($exception instanceof NotFoundHttpException)
+//        {
+//            return redirect('/404');
+//
+//        }
+//
+//        if($exception instanceof Exception)
+//        {
+//            return redirect('/forbidden');
+//        }
+//
+//        if($exception instanceof Exception)
+//        {
+//            return redirect('/500');
+//        }
+
         return parent::render($request, $exception);
+
     }
 }

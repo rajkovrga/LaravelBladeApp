@@ -28,7 +28,7 @@ Route::post('/register','AuthController@registration');
 
 Route::get('/verify/email','AuthController@verify')->name('verify.email');
 Route::post('/verify/again','AuthController@againVerify');
-Route::get('/verified','FrontController@verified');
+Route::get('/result','FrontController@result');
 
 Route::get('/blog/{id}','FrontController@post');
 Route::get('/comments/{id}/page/{page}','PostController@moreComments');
@@ -37,3 +37,8 @@ Route::post('/post/like','PostController@like');
 Route::post('/post/unlike','PostController@unlike');
 Route::post('/comment/like','PostController@likeComment');
 Route::post('/comment/unlike','PostController@unlikeComment');
+Route::post('/post/update/{id}','PostController@edit');
+Route::post('/delete/{id}','PostController@delete');
+Route::get('/profile','FrontController@profile');
+Route::get('/404','FrontController@notfound');
+Route::get('/500','FrontController@notfound');

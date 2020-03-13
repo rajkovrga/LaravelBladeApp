@@ -19,10 +19,17 @@ class PostController extends Controller
         $this->postService = $postService;
     }
 
-    public function moreComments($id, $page)
+    public function moreComments(Request $request,$id, $page)
     {
+
+        $userId = null;
+        if(auth()->check())
+        {
+            $userId = auth()->user()->id;
+        }
+
         try {
-            $comments = $this->postService->comments($id,$page);
+            $comments = $this->postService->comments($id,$userId,$page);
             return $comments;
         }
         catch (\Exception $er)
@@ -38,12 +45,12 @@ class PostController extends Controller
            'comment-area' => 'required|min:5'
         ]);
 
-        if(!$request->session()->has('user'))
+        if(!auth()->check())
         {
             return redirect('/');
         }
         try {
-            $this->postService->createComment($request->input('comment-area'),$request->session()->get('user')->id,$id);
+            $this->postService->createComment($request->input('comment-area'),auth()->user()->id,$id);
             return redirect()->back();
         }
         catch (ModelNotFoundException $er)
@@ -60,13 +67,13 @@ class PostController extends Controller
 
     public function like(Request $request)
     {
-        if(!$request->session()->has('user'))
+        if(!auth()->check())
         {
             throw new AuthException('User not logged',403);
         }
 
         try {
-            $numberLikes = $this->postService->like($request->input('id'),$request->session()->get('user')->id);
+            $numberLikes = $this->postService->like($request->input('id'),auth()->user()->id);
             return response()->json(['number' => $numberLikes],200);
         }
         catch (AuthException $er)
@@ -80,19 +87,17 @@ class PostController extends Controller
             return response()->json(['message' => $er->getMessage()],500);
         }
 
-
-
     }
 
     public function unlike(Request $request)
     {
-        if(!$request->session()->has('user'))
+        if(!auth()->check())
         {
             throw new AuthException('User not logged',403);
         }
 
         try {
-            $numberLikes = $this->postService->unlike($request->input('id'),$request->session()->get('user')->id);
+            $numberLikes = $this->postService->unlike($request->input('id'),auth()->user()->id);
             return response()->json(['number' => $numberLikes],200);
         }
         catch (AuthException $er)
@@ -110,14 +115,14 @@ class PostController extends Controller
     public function likeComment(Request $request)
     {
 
-        if(!$request->session()->has('user'))
+        if(!auth()->check())
         {
             throw new AuthException('User not logged',403);
         }
 
 
         try {
-            $numberLikes = $this->postService->likeComment($request->input('id'),$request->session()->get('user')->id);
+            $numberLikes = $this->postService->likeComment($request->input('id'),auth()->user()->id, $request->input('postId'));
             return response()->json(['number' => $numberLikes],200);
         }
         catch (AuthException $er)
@@ -134,14 +139,14 @@ class PostController extends Controller
 
     public function unlikeComment(Request $request)
     {
-        if(!$request->session()->has('user'))
+        if(!auth()->check())
         {
             throw new AuthException('User not logged',403);
         }
 
 
         try {
-            $numberLikes = $this->postService->unlikeComment($request->input('id'),$request->session()->get('user')->id);
+            $numberLikes = $this->postService->unlikeComment($request->input('id'),auth()->user()->id, $request->input('postId'));
             return response()->json(['number' => $numberLikes],200);
         }
         catch (AuthException $er)
@@ -152,7 +157,59 @@ class PostController extends Controller
         catch (\Exception $er)
         {
             Log::error($er->getMessage());
-            return response()->json(['message' => 'Error' . $er->getMessage()],500);
+            return response()->json(['message' => 'Error'],500);
+        }
+    }
+
+    public function edit(Request $request, $id)
+    {
+        $request->validate([
+            'title' => 'required|min:6',
+            'desc' => 'required|min:10'
+        ]);
+
+        try {
+
+            $this->postService->edit($id,$request->input('title'),$request->input('desc'));
+            return redirect()->back();
+        }
+        catch (ModelNotFoundException $er)
+        {
+            Log::error($er->getMessage());
+            return redirect()->back()->with([
+                'error' => 'Ne postoji ovaj post'
+            ]);
+        }
+        catch (\Exception $er)
+        {
+            Log::error($er->getMessage());
+            return redirect()->back()->with([
+                'error' => 'Doslo je do greske, izmena nije uspela'
+            ]);
+        }
+    }
+
+    public function delete($id)
+    {
+        try {
+            $this->postService->delete($id);
+            return redirect('/result')->with([
+                'result' => 'Uspesno obrisano'
+            ]);
+        }
+        catch (ModelNotFoundException $er)
+        {
+            Log::error($er->getMessage());
+            return redirect('/result')->with([
+                'error' => 'Ne postoji ovaj post'
+            ]);
+        }
+        catch (\Exception $er)
+        {
+            Log::error($er->getMessage());
+            return redirect('/result')->with([
+                'error' => 'Doslo je do greske, brisanje nije uspelo'
+            ]);
         }
     }
 

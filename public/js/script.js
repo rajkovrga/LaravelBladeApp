@@ -20,15 +20,13 @@ document.addEventListener("DOMContentLoaded",function() {
                             <span>${row.username}</span>
                             <span class="d-flex justify-content-center flex-column align-items-center">
                                 <i class="heart-item fa fa-heart `;
-                        if (sessionStorage.getItem('user') != null) {
-                            if (sessionStorage.getItem('user').id != row.user_liked) {
+                        if (row.user_liked != 0) {
                                 newData += 'heart-red';
-                            }
                         } else {
                             newData += 'heart-classic';
                         }
                         newData += ` " id="heart-item" data-id="${row.id}" aria-hidden="true"></i>
-                                <p id="count-comment-likes">${row.numberLikes}</p>
+                                <p class="count-comment-likes" id="count-comment-likes">${row.numberLikes}</p>
                             </span>
                         </div>
                         <div class="col-9 ">
@@ -79,20 +77,21 @@ document.addEventListener("DOMContentLoaded",function() {
     checkLikeComment()
     function checkLikeComment() {
         let commentLikeButton = document.getElementsByClassName('heart-item');
-        let commentLikes = document.getElementById('count-comment-likes');
+        let commentLikes = document.getElementsByClassName('count-comment-likes');
 
         for (let i = 0; i < commentLikeButton.length; i++)
         {
             commentLikeButton[i].addEventListener('click',function () {
                 let id = this.getAttribute('data-id');
-                if(this.classList.contains('heart-red'))
+                let postId = this.getAttribute('data-post');
+                if(commentLikeButton[i].classList.contains('heart-red'))
                 {
-                    this.classList.remove('heart-red');
-                    this.classList.add('heart-classic');
-                    axios.post('/comment/unlike',{id})
+                    axios.post('/comment/unlike',{id,postId})
                         .then(function (result) {
-                            commentLikes.innerHTML = result.data.number;
-
+                            console.log(result.data);
+                            commentLikes[i].innerHTML = result.data.number[0].number;
+                            commentLikeButton[i].classList.remove('heart-red');
+                            commentLikeButton[i].classList.add('heart-classic');
                             console.log(result.data);
                         })
                         .catch(function (err) {
@@ -101,13 +100,13 @@ document.addEventListener("DOMContentLoaded",function() {
                 }
                 else
                 {
-                    this.classList.remove('heart-classic');
-                    this.classList.add('heart-red');
                     axios.post('/comment/like',{id})
                         .then(function (result) {
-                            commentLikes.innerHTML = result.data.number;
-
-                            console.logr(result.data);
+                            console.log(result.data);
+                            commentLikes[i].innerHTML = result.data.number[0].number;
+                            commentLikeButton[i].classList.remove('heart-classic');
+                            commentLikeButton[i].classList.add('heart-red');
+                            console.log(result.data);
 
                         })
                         .catch(function (err) {

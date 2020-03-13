@@ -11,7 +11,7 @@
 
 <h3>Verifikujte svoj nalog</h3>
 
-<button href="{{$url}}">Verifikacija mejla</button>
+<a href="{{$url}}">Verifikacija mejla</a>
 
 </body>
 </html>
