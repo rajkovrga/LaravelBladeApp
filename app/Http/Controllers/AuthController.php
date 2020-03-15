@@ -4,17 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Dto\ContactDto;
 use App\Dto\RegisterDto;
+use App\Exceptions\NotActiveException;
 use App\Exceptions\NotVerifyException;
 use App\Exceptions\PasswordNotException;
 use App\Exceptions\VerifyException;
+use App\Http\Requests\PasswordChangeRequest;
 use App\Notifications\ContactNotify;
 use App\Notifications\VerifyNofify;
 use App\Services\UserService;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
+use Mockery\Exception;
 
 class AuthController extends Controller
 {
@@ -134,13 +138,18 @@ class AuthController extends Controller
         }
         catch (PasswordNotException $er)
         {
+            Log::error($er->getMessage());
             return redirect('/login')->with(['error-login' => 'Podaci nisu tacni']);
-
         }
         catch (NotVerifyException $er)
         {
             Log::error($er->getMessage());
             return redirect('/verify')->with(['error' => 'Verifikujte Vas nalog']);
+        }
+        catch (NotActiveException $er)
+        {
+            Log::error($er->getMessage());
+            return redirect('/verify')->with(['error' => 'Nalopg deaktiviran, ako zelite opet da ga aktivirate verifikujte vas nalog']);
         }
         catch(Exception $er)
         {
@@ -152,6 +161,11 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
+
+        if(!auth()->check()) {
+            throw new AuthorizationException();
+        }
+
         try {
             if(auth()->check())
             {
@@ -192,4 +206,125 @@ class AuthController extends Controller
         }
     }
 
+    public function changeEmail(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email'
+        ]);
+
+        if(!auth()->check()) {
+            throw new AuthorizationException();
+        }
+
+        try {
+            $this->userService->changeEmail(auth()->user()->id, $request->input('email'));
+
+            return redirect()->back()->with(['error-email' => 'Uspesno promenjeno, verifikujte nalog ponovo prilikom sledeceg logovanja']);
+        }
+        catch (ModelNotFoundException $er)
+        {
+            Log::error($er->getMessage());
+            return redirect()->back()->with(['error-email' => 'Korisnik ne postoji']);
+        }
+        catch (\PDOException $er)
+        {
+            Log::error($er->getMessage());
+            return redirect()->back()->with(['error-email' => 'Email je zauzet']);
+        }
+        catch (Exception $er)
+        {
+            Log::error($er->getMessage());
+            return redirect()->back()->with(['error-email' => 'Doslo je do greske']);
+        }
+    }
+
+    public function changeUsername(Request $request)
+    {
+        $request->validate([
+            'username' => 'required|min:6|max:20'
+        ]);
+
+        if(!auth()->check()) {
+            throw new AuthorizationException();
+        }
+
+        try {
+            $this->userService->changeUsername(auth()->user()->id, $request->input('username'));
+            return redirect()->back()->with(['error-uname' => 'Uspesno promenjeno']);
+        }
+        catch (ModelNotFoundException $er)
+        {
+            Log::error($er->getMessage());
+            return redirect()->back()->with(['error-uname' => 'Korisnik ne postoji']);
+        }
+        catch (\PDOException $er)
+        {
+            Log::error($er->getMessage());
+            return redirect()->back()->with(['error-uname' => 'Korisnicko ime je zauzeto']);
+        }
+        catch (Exception $er)
+        {
+            Log::error($er->getMessage());
+            return redirect()->back()->with(['error-uname' => 'Doslo je do greske']);
+        }
+    }
+
+    public function deactiveUser(Request $request)
+    {
+
+        if(!auth()->check()) {
+            throw new AuthorizationException();
+        }
+
+        try {
+            $this->userService->deactiveUser(auth()->user()->id);
+            auth()->logout();
+            return redirect('/login')->with(['error-login' => 'Nalog deaktiviran']);
+        }
+        catch (ModelNotFoundException $er)
+        {
+            Log::error($er->getMessage());
+            return redirect()->back()->with(['error-uname' => 'Korisnik ne postoji']);
+        }
+        catch (Exception $er)
+        {
+            Log::error($er->getMessage());
+            return redirect()->back()->with(['error-uname' => 'Doslo je do greske']);
+        }
+    }
+
+
+    public function changePassword(PasswordChangeRequest $request)
+    {
+        $data = $request->validated();
+
+        if(!auth()->check()) {
+            throw new AuthorizationException();
+        }
+
+        try {
+            $this->userService->changePassword($data['oldPass'], $data['newPass'], auth()->user()->id);
+            return redirect()->back()->with(['password-error' => 'Lozinka promenjena']);
+        }
+        catch (PasswordNotException $er)
+        {
+            Log::error($er->getMessage());
+            return redirect()->back()->with(['password-error' => 'Stara lozinka nije odgovarajuca']);
+        }
+        catch (ModelNotFoundException $er)
+        {
+            Log::error($er->getMessage());
+            return redirect()->back()->with(['password-error' => 'Korisnik ne postoji']);
+        }
+        catch (Exception $er)
+        {
+            Log::error($er->getMessage());
+            return redirect()->back()->with(['password-error' => 'Doslo je do greske']);
+        }
+    }
+
+    public function changeImage(Request $request)
+    {
+
+    }
 }

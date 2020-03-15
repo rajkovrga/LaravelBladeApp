@@ -53,6 +53,10 @@ class FrontController extends Controller
 
     public function verifyAccount()
     {
+        if(auth()->check())
+        {
+            abort(404);
+        }
         return view('pages.againverify');
     }
 
@@ -64,6 +68,11 @@ class FrontController extends Controller
         }
 
         return view('pages.result');
+    }
+
+    public function forbidden()
+    {
+        return view('pages.forbidden');
     }
 
     public function contact()

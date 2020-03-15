@@ -10,7 +10,7 @@
 
             <img src="{{url('images/not-found.gif')}}" alt="not found" id="notfound-img"/>
             <h3>
-                Nemate pristup ovoj stranici
+                Nemate pristup ovoj akciji
             </h3>
         </div>
 

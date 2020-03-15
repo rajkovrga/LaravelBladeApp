@@ -210,6 +210,11 @@ color:darkred !important;
     border-radius: 50%;
 }
 
+#edit-image{
+    bottom: 0;
+    right: 0;
+}
+
 #form-email{
     display: none;
 }

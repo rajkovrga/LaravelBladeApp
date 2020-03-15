@@ -42,3 +42,10 @@ Route::post('/delete/{id}','PostController@delete');
 Route::get('/profile','FrontController@profile');
 Route::get('/404','FrontController@notfound');
 Route::get('/500','FrontController@notfound');
+Route::get('/forbidden','FrontController@forbidden');
+Route::post('/change/email','AuthController@changeEmail');
+Route::post('/change/username','AuthController@changeUsername');
+Route::post('/user/deactive','AuthController@deactiveUser');
+
+Route::post('/change/password','AuthController@changePassword');
+Route::post('/change/image','AuthController@changeImage');

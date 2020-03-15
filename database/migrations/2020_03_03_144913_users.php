@@ -23,6 +23,7 @@ class Users extends Migration
            $table->string('password');
            $table->string('image_url',255)->default('avatar.jpg');
            $table->timestamps();
+           $table->boolean('acitve')->default(true);
         });
     }
 

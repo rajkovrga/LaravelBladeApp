@@ -58,17 +58,13 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
 
-//        if($exception instanceof NotFoundHttpException)
-//        {
-//            return redirect('/404');
-//
-//        }
-//
-//        if($exception instanceof Exception)
-//        {
-//            return redirect('/forbidden');
-//        }
-//
+        if($exception instanceof NotFoundHttpException)
+        {
+            return redirect('/404');
+
+        }
+
+
 //        if($exception instanceof Exception)
 //        {
 //            return redirect('/500');

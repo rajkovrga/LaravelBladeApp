@@ -2,12 +2,12 @@ document.addEventListener("DOMContentLoaded",function() {
     let moreCommentsBtn = document.getElementById('more-comments')
     let comments = document.getElementById('comment-items')
     if (moreCommentsBtn) {
-        moreCommentsBtn.addEventListener('click', function () {
+        moreCommentsBtn.addEventListener('click',  () => {
             let id = this.getAttribute('data-id');
             let page = this.getAttribute('data-page');
             let next = parseInt(page) + 1;
             axios.get('/comments/' + id + "/page/" + next)
-                .then(function (result) {
+                .then((result) => {
                     moreCommentsBtn.setAttribute('data-page', result.data.current_page);
                     if (result.data.current_page == result.data.last_page) {
                         moreCommentsBtn.style.display = "none"
@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded",function() {
 
                     checkLikeComment()
                 })
-                .catch(function (error) {
+                .catch((error) => {
                     console.log(error)
                 })
         });
@@ -47,30 +47,24 @@ document.addEventListener("DOMContentLoaded",function() {
 
     let likeButton = document.getElementById('like-button');
     let likes = document.getElementById('count-likes');
-    likeButton.addEventListener('click', function () {
+    likeButton.addEventListener('click',  () => {
         let id = likeButton.getAttribute('data-id');
         if (likeButton.classList.contains('liked-button')) {
             axios.post('/post/unlike', {id})
-                .then(function (result) {
+                .then((result) => {
                     likes.innerHTML = result.data.number;
                     likeButton.classList.remove('liked-button');
                     likeButton.classList.add('like-button');
                 })
-                .catch(function (err) {
-                    console.log(err);
-                })
+                .catch((err) => console.log(err))
         } else {
             axios.post('/post/like', {id})
-                .then(function (result) {
+                .then((result) => {
                     likes.innerHTML = result.data.number;
                     likeButton.classList.remove('like-button');
                     likeButton.classList.add('liked-button');
                 })
-                .catch(function (err) {
-                    console.log(err);
-                    window.location.href = '/login';
-
-                })
+                .catch((err) =>  window.location.href = '/login')
         }
     })
 
@@ -81,38 +75,28 @@ document.addEventListener("DOMContentLoaded",function() {
 
         for (let i = 0; i < commentLikeButton.length; i++)
         {
-            commentLikeButton[i].addEventListener('click',function () {
+            commentLikeButton[i].addEventListener('click', () => {
                 let id = this.getAttribute('data-id');
                 let postId = this.getAttribute('data-post');
                 if(commentLikeButton[i].classList.contains('heart-red'))
                 {
                     axios.post('/comment/unlike',{id,postId})
-                        .then(function (result) {
-                            console.log(result.data);
+                        .then((result) => {
                             commentLikes[i].innerHTML = result.data.number[0].number;
                             commentLikeButton[i].classList.remove('heart-red');
                             commentLikeButton[i].classList.add('heart-classic');
-                            console.log(result.data);
                         })
-                        .catch(function (err) {
-                            console.log(err);
-                        })
+                        .catch((err) => console.log(err))
                 }
                 else
                 {
                     axios.post('/comment/like',{id})
-                        .then(function (result) {
-                            console.log(result.data);
+                        .then((result) => {
                             commentLikes[i].innerHTML = result.data.number[0].number;
                             commentLikeButton[i].classList.remove('heart-classic');
                             commentLikeButton[i].classList.add('heart-red');
-                            console.log(result.data);
-
                         })
-                        .catch(function (err) {
-                            console.log(err);
-                            // window.location.href = '/login';
-                        })
+                        .catch((err) => console.log(err))
                 }
             })
         }
