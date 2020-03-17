@@ -2,17 +2,23 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d28620c4-462e-4c95-b2ad-d99499e49fb1" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/herbsblog.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/herbsblog.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Exceptions/Handler.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Exceptions/Handler.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/AuthController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/AuthController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/FrontController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/FrontController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Services/UserService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/UserService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/filesystems.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/filesystems.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/factories/UserFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/factories/UserFactory.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database/migrations/2020_03_03_144913_users.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_03_03_144913_users.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/.htaccess" beforeDir="false" afterPath="$PROJECT_DIR$/public/.htaccess" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/profile.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/profile.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/script.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/pages/forbidden.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/pages/forbidden.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/fixed/head.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/fixed/head.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/pages/auth.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/pages/auth.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/pages/home.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/pages/home.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/pages/post.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/pages/post.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/pages/profile.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/pages/profile.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
@@ -31,6 +37,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="JavaScript File" />
+        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -133,6 +140,10 @@
       <path value="$PROJECT_DIR$/vendor/symfony/translation-contracts" />
       <path value="$PROJECT_DIR$/vendor/predis/predis" />
       <path value="$PROJECT_DIR$/vendor/spatie/laravel-permission" />
+      <path value="$PROJECT_DIR$/vendor/psr/http-message" />
+      <path value="$PROJECT_DIR$/vendor/intervention/image" />
+      <path value="$PROJECT_DIR$/vendor/guzzlehttp/psr7" />
+      <path value="$PROJECT_DIR$/vendor/ralouphie/getallheaders" />
     </include_path>
   </component>
   <component name="ProjectId" id="1YZrmYCfeCN7wPWlXEGHkzumesy" />
@@ -148,6 +159,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="web-ide.project.structure" />
     <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
@@ -192,7 +204,8 @@
       <workItem from="1583884107657" duration="10321000" />
       <workItem from="1583922335327" duration="40609000" />
       <workItem from="1584205284665" duration="1270000" />
-      <workItem from="1584265052095" duration="18754000" />
+      <workItem from="1584265052095" duration="22839000" />
+      <workItem from="1584368951018" duration="17310000" />
     </task>
     <servers />
   </component>
@@ -209,6 +222,10 @@
       <screen x="67" y="27" width="1299" height="741" />
     </state>
     <state x="413" y="27" width="587" height="741" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/67.27.1299.741@67.27.1299.741" timestamp="1583412170600" />
+    <state x="530" y="335" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1584374053175">
+      <screen x="0" y="0" width="1600" height="1160" />
+    </state>
+    <state x="530" y="335" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1600.1160@0.0.1600.1160" timestamp="1584374053175" />
     <state x="343" y="27" width="737" height="741" key="#public" timestamp="1583230932024">
       <screen x="67" y="27" width="1299" height="741" />
     </state>
@@ -222,20 +239,20 @@
     </state>
     <state x="473" y="286" key="NewPhpClassDialog/0.0.1600.1160@0.0.1600.1160" timestamp="1584269481272" />
     <state x="451" y="210" width="585" height="373" key="NewPhpClassDialog/67.27.1299.741@67.27.1299.741" timestamp="1583573194557" />
-    <state x="548" y="462" width="399" height="149" key="NewPhpFileDialog" timestamp="1584072671323">
+    <state x="548" y="462" width="399" height="149" key="NewPhpFileDialog" timestamp="1584403831884">
       <screen x="0" y="0" width="1600" height="1160" />
     </state>
-    <state x="548" y="462" key="NewPhpFileDialog/0.0.1600.1160@0.0.1600.1160" timestamp="1584072671323" />
+    <state x="548" y="462" key="NewPhpFileDialog/0.0.1600.1160@0.0.1600.1160" timestamp="1584403831884" />
     <state x="512" y="322" width="399" height="149" key="NewPhpFileDialog/67.27.1299.741@67.27.1299.741" timestamp="1583504326168" />
     <state x="170" y="6" key="SettingsEditor" timestamp="1584003262546">
       <screen x="0" y="0" width="1600" height="1160" />
     </state>
     <state x="170" y="6" key="SettingsEditor/0.0.1600.1160@0.0.1600.1160" timestamp="1584003262546" />
     <state x="205" y="31" key="SettingsEditor/67.27.1299.741@67.27.1299.741" timestamp="1583340554106" />
-    <state x="376" y="308" key="com.intellij.ide.util.TipDialog" timestamp="1584265090429">
+    <state x="376" y="308" key="com.intellij.ide.util.TipDialog" timestamp="1584371460713">
       <screen x="0" y="0" width="1600" height="1160" />
     </state>
-    <state x="376" y="308" key="com.intellij.ide.util.TipDialog/0.0.1600.1160@0.0.1600.1160" timestamp="1584265090429" />
+    <state x="376" y="308" key="com.intellij.ide.util.TipDialog/0.0.1600.1160@0.0.1600.1160" timestamp="1584371460713" />
     <state x="372" y="224" key="com.intellij.ide.util.TipDialog/67.27.1299.741@67.27.1299.741" timestamp="1583757287202" />
     <state x="380" y="61" width="662" height="670" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1583404408717">
       <screen x="67" y="27" width="1299" height="741" />

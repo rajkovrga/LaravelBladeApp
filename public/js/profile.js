@@ -33,21 +33,23 @@ document.addEventListener('DOMContentLoaded',function () {
 
     imageEditButton.addEventListener('change',  () => {
         errorImage.innerText = '';
-        if(!this.files[0].type.match(/.(jpg|jpeg|png|gif)$/i))
+        if(!imageEditButton.files[0].type.match(/.(jpg|jpeg|png|gif)$/i))
         {
             errorImage.innerText = 'Fajl nije u dobrom formatu';
             return;
         }
 
         let formData = new FormData();
-        formData.append(this.files[0]);
+        formData.append('file',imageEditButton.files[0]);
 
-        axios.post('/change/image',{data: formData})
+        axios.post('/change/image',formData)
             .then(result => {
-                document.getElementById('iamge-avatar').src = result;
+                document.getElementById('image-avatar').src = result;
             })
-            .catch(error => {
-                if(error.status == 500)
+            .catch((error) => {
+                if(error.response.status === 422)
+                    errorImage.innerText = 'Fajl nije u dobrom formatu';
+                else
                     errorImage.innerText = 'Doslo je do greske';
             });
 

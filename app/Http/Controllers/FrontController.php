@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Exceptions\AuthException;
 use App\Services\PostService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -122,11 +123,38 @@ class FrontController extends Controller
 
     public function dashboard()
     {
+        if(!auth()->check())
+        {
+            return redirect('/login');
+        }
 
+        if(!auth()->user()->can('use-dashboard'))
+        {
+            throw new AuthException();
+        }
+
+        return view('pages.dashboard');
+    }
+
+    public function insertPostDashboard()
+    {
+        if(!auth()->check())
+        {
+            return redirect('/login');
+        }
+
+        if(!auth()->user()->can('add-post'))
+        {
+            throw new AuthException();
+        }
+
+        return view('pages.dashboard-insert-post');
     }
 
     public function notfound()
     {
         return view('pages.notfound');
     }
+
+
 }

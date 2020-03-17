@@ -12,6 +12,8 @@
 
     <link rel="stylesheet" href="{{url('css/style.css')}}">
 
+    @yield('style')
+
     <title>Herbs Blade</title>
 </head>
 <body>

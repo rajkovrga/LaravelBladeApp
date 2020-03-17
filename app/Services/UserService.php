@@ -9,14 +9,20 @@ use App\Exceptions\NotVerifyException;
 use App\Exceptions\PasswordNotException;
 use App\Exceptions\VerifyException;
 use App\Models\User;
+use Carbon\Carbon;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Contracts\Hashing\Hasher;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\ImageManager;
 
 class UserService
 {
     private $hasher;
+    private $imageManager;
 
-    public function __construct(Hasher $hasher)
+    public function __construct(Hasher $hasher, ImageManager $imageManager)
     {
+        $this->imageManager = $imageManager;
         $this->hasher = $hasher;
     }
 
@@ -122,4 +128,29 @@ class UserService
         $user->saveOrFail();
     }
 
+    public function changeImage($imageForUpload, $id)
+    {
+        $ext = $imageForUpload->extension();
+        $user = User::query()->findOrFail($id);
+        $old_image = $user->image_url;
+        $path = $this->createName($ext, 'USER');
+        $img = $this->imageManager->make($imageForUpload)->resize(250, 250);
+        $img->stream();
+        Storage::disk('local')->put($path, $img);
+        if (! Storage::disk('local')->exists($path)) {
+            throw new FileNotFoundException('File not saved', 400);
+        }
+        $user->image_url = $path;
+        $user->saveOrFail();
+        if ($old_image != null) {
+            Storage::disk('local')->delete($old_image);
+        }
+
+        return $path;
+    }
+
+    public function createName(string $ext, string $type = 'HERBS')
+    {
+        return 'IMG'. $type . hash('sha384', Carbon::now()->toDateTimeString()) . '.' . $ext;
+    }
 }

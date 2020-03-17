@@ -5,17 +5,14 @@
     <div class="col-12 text-center flex-column d-flex align-items-center">
 
         <h3>Profil korisnika</h3>
-        <form action=""  class="position-relative d-flex flex-column" id="avatar">
-            <img src="{{url('images/avatar.jpg')}}" id="image-avatar" class="rounded-circle w-100 h-100" alt="avatar user">
+        <form enctype="multipart/form-data" class="position-relative d-flex flex-column" id="avatar">
+            <img src="{{app_path()}}/../storage/app/avatars/IMGUSERf66fae9c5c155cbf6877a4c45c3182c051d1c603cd1a7d629dd2b2cd6b22878635a43181fade27f56cc87490f35ac1f9.gif"
+                 id="image-avatar" class="rounded-circle w-100 h-100" alt="avatar user">
             <label for="image-input" id="edit-image" class="position-absolute rounded-circle btn btn-primary"><i class="fa fa-pencil" aria-hidden="true"></i></label>
             <input accept="image/*" class="d-none" type="file" name="image" id="image-input">
         </form>
 
       <b> <p id="error-image"></p> </b>
-
-
-
-
 
         <p>Korisnicko ime:</p>
 

@@ -47,7 +47,7 @@
                                 <div class="modal-body">
                                     <div class="form-group">
                                         <label for="exampleInputPassword1">Naslov</label>
-                                        <input id="email" type="text" value="{{$data->title}}" name="title" class="form-control" aria-describedby="titleHelp" placeholder="Email adresa">
+                                        <input id="email" type="text" value="{{$data->title}}" name="title" class="form-control" aria-describedby="titleHelp" placeholder="Naslov objave">
                                         @error('desc')
                                         <small id="emailHelp" class="form-text text-muted">{{$message}}</small>
                                         @enderror

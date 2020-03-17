@@ -10,7 +10,7 @@
             <h3>Logovanje</h3>
         </div>
         <form method="POST" action="{{url('/login')}}">
-            {{csrf_field()}}
+            @csrf
             <div class="form-group">
                 <label for="exampleInputEmail1">Email adresa</label>
 
@@ -41,7 +41,7 @@
             <h3>Registracija</h3>
         </div>
         <form action="{{url("/register")}}" method="POST">
-            {{ csrf_field() }}
+            @csrf
 
             <div class="form-group">
                 <label for="exampleInputEmail1">Korisnicko ime</label>

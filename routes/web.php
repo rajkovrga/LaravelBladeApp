@@ -49,3 +49,10 @@ Route::post('/user/deactive','AuthController@deactiveUser');
 
 Route::post('/change/password','AuthController@changePassword');
 Route::post('/change/image','AuthController@changeImage');
+
+Route::prefix('dashboard')->group(function ()
+{
+    Route::get('/','FrontController@dashboard');
+    Route::get('/insert','FrontController@insertPostDashboard');
+
+});

@@ -13,6 +13,7 @@ use App\Notifications\ContactNotify;
 use App\Notifications\VerifyNofify;
 use App\Services\UserService;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -325,6 +326,28 @@ class AuthController extends Controller
 
     public function changeImage(Request $request)
     {
+        $request->validate([
+            'file' => 'file|mimes:png,gif,jpg,jpeg|max:3000'
+        ]);
 
+        if(!auth()->check()) {
+            throw new AuthorizationException();
+        }
+        $image = $request->file('file');
+
+        try {
+            $imageUrl = $this->userService->changeImage($image, auth()->user()->id);
+            return response()->json(['url' => $imageUrl],200);
+        }
+        catch (FileNotFoundException $er)
+        {
+            Log::error($er->getMessage());
+            return response()->json(['message' => 'File not saved'],400);
+        }
+        catch (Exception $er)
+        {
+            Log::error($er->getMessage());
+            return response()->json(['message' => 'Error'],500);
+        }
     }
 }

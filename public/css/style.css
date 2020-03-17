@@ -228,6 +228,14 @@ color:darkred !important;
     height: 41px;
     margin-left: 10px;
 }
+.welcome-dsb img{
+    width: 100%;
+    min-height: 215px;
+}
+
+.dashboard-box{
+padding-bottom: 150px;
+}
 
 @media screen and (max-width: 700px)
 {
