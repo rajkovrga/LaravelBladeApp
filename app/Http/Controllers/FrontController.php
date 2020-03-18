@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Exceptions\AuthException;
 use App\Services\PostService;
+use App\Services\UserService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Session;
@@ -13,10 +14,12 @@ class FrontController extends Controller
 {
 
     private $postService;
+    private $userService;
 
-    public function __construct(PostService $postService)
+    public function __construct(PostService $postService, UserService $userService)
     {
         $this->postService = $postService;
+        $this->userService = $userService;
     }
 
     public function home()
@@ -149,9 +152,10 @@ class FrontController extends Controller
         return view('pages.top10comments')->with(['comments' => $this->postService->top10comments()]);
     }
 
-    public function dashboardUsers()
+    public function dashboardUsers(Request $request)
     {
-
+        activity()->log('user');
+        return view('pages.dashboard-users')->with(['users' => $this->userService->dashboardUsers($request->get('page'))]);
     }
 
     public function userActivities()

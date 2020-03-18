@@ -58,4 +58,6 @@ Route::middleware(['dashboard'])->prefix('dashboard')->group(function ()
     Route::get('/insert','FrontController@insertPostDashboard');
     Route::get('/top/posts','FrontController@topPost');
     Route::get('/top/comments','FrontController@topComment');
+    Route::get('/users','FrontController@dashboardUsers');
+
 });

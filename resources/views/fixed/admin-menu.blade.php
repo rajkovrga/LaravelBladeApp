@@ -59,7 +59,7 @@
                         <span>Korisnicki deo</span>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="/dashboard/users">
                             <i class="far fa-gem"></i>
                             <span>Prikaz korisnika</span>
                         </a>

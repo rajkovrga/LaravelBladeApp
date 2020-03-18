@@ -153,4 +153,10 @@ class UserService
     {
         return 'IMG'. $type . hash('sha384', Carbon::now()->toDateTimeString()) . '.' . $ext;
     }
+
+    public function dashboardUsers($page = 1, $perPage = 10)
+    {
+        $users = User::query()->with('roles')->orderBy('created_at','desc')->paginate($perPage, ['*'], 'page',$page);
+        return $users;
+    }
 }
