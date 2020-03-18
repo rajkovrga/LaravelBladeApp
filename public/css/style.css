@@ -237,6 +237,11 @@ color:darkred !important;
 padding-bottom: 150px;
 }
 
+.post-btn{
+    bottom: 0px;
+    right: 0px;
+}
+
 @media screen and (max-width: 700px)
 {
     .carousel-item img

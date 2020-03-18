@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\AuthException;
+use App\Http\Requests\CreatePostRequest;
+use App\Models\Post;
 use App\Services\PostService;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -212,5 +214,35 @@ class PostController extends Controller
             ]);
         }
     }
+
+    public function create(CreatePostRequest $request)
+        {
+            $data = $request->validated();
+
+            if(!auth()->check())
+            {
+                throw new AuthException('User not logged',403);
+            }
+
+            try {
+                $post = $this->postService->create($data['title'], $data['desc'],auth()->user()->id);
+
+                return redirect('/blog/' . $post->id);
+            }
+            catch (\PDOException $er)
+            {
+                Log::error($er->getMessage());
+                return redirect()->back()->with([
+                    'error' => 'Upis nije uspeo'
+                ]);
+            }
+            catch (\Exception $er)
+            {
+                Log::error($er->getMessage());
+                return redirect()->back()->with([
+                    'error' => 'Doslo je do greske, kreiranje nije uspelo'
+                ]);
+            }
+        }
 
 }

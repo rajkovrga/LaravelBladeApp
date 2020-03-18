@@ -3,9 +3,9 @@
 @endsection
 
 
-<div id="menu" class="page-wrapper chiller-theme position-fixed">
+<div id="menu" class="page-wrapper chiller-theme position-fixed ">
     <a id="show-sidebar" class="btn btn-sm btn-dark w-auto align-items-center justify-content-between d-flex" href="#">
-       <span id="title-menu">Panel</span> <i class="fa fa-bars" aria-hidden="true"></i>
+       <span id="title-menu">Admin meni</span> <i class="fa fa-bars" aria-hidden="true"></i>
     </a>
     <nav id="sidebar" class="sidebar-wrapper">
         <div class="sidebar-content">
@@ -44,15 +44,15 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="/dashboard/top/posts">
                             <i class="far fa-gem"></i>
                             <span>Top 5 objava</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="/dashboard/top/comments">
                             <i class="far fa-gem"></i>
-                            <span>Top 5 komentara</span>
+                            <span>Top 10 komentara</span>
                         </a>
                     </li>
                     <li class="header-menu">

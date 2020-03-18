@@ -113,36 +113,17 @@ class FrontController extends Controller
 
     public function profile()
     {
-        if(!auth()->check())
-        {
-            return redirect('/login');
-        }
-
         return view('pages.profile');
     }
 
     public function dashboard()
     {
-        if(!auth()->check())
-        {
-            return redirect('/login');
-        }
-
-        if(!auth()->user()->can('use-dashboard'))
-        {
-            throw new AuthException();
-        }
 
         return view('pages.dashboard');
     }
 
     public function insertPostDashboard()
     {
-        if(!auth()->check())
-        {
-            return redirect('/login');
-        }
-
         if(!auth()->user()->can('add-post'))
         {
             throw new AuthException();
@@ -156,5 +137,25 @@ class FrontController extends Controller
         return view('pages.notfound');
     }
 
+    public function topPost()
+    {
+        return view('pages.top5-posts')->with(['top5' => $this->postService->top5posts(),
+            'top5in24' => $this->postService->top5postsNew()]);
+    }
 
+    public function topComment()
+    {
+
+        return view('pages.top10comments')->with(['comments' => $this->postService->top10comments()]);
+    }
+
+    public function dashboardUsers()
+    {
+
+    }
+
+    public function userActivities()
+    {
+
+    }
 }

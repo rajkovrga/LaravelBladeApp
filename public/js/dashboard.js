@@ -1,11 +1,4 @@
-jQuery(function ($) {
-
-    if($(window).width() > 900)
-    {
-        let menu  = $('#menu')
-        document.getElementById('menu').classList.add('toggled')
-    }
-
+$(document).ready(function () {
     $("#close-sidebar").click(() => {
         $(".page-wrapper").removeClass("toggled");
     });

@@ -11,21 +11,17 @@
 
 
         <div class="col-xl-5 col-lg-6 col-md-8 col-sm-12 col-12 ">
-            <form method="POST" action="/post/update/">
+            <form method="POST" action="/post/create">
                 @csrf
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="exampleInputPassword1">Naslov</label>
                         <input id="email" type="text" value="" name="title" class="form-control" aria-describedby="titleHelp" placeholder="Naslov objave">
-                        @error('desc')
+                        @error('title')
                         <small id="emailHelp" class="form-text text-muted">{{$message}}</small>
                         @enderror
 
-                        <small id="emailHelp" class="form-text text-muted">
-                            @if(session('error'))
-                                {{ session('error') }}
-                            @endif
-                        </small>
+
                     </div>
                     <div class="form-group">
                         <label for="exampleInputPassword1">Opis objave</label>
@@ -34,15 +30,17 @@
                         <small id="emailHelp" class="form-text text-muted">{{$message}}</small>
                         @enderror
 
-                        <small id="emailHelp" class="form-text text-muted">
-                            @if(session('error'))
-                                {{ session('error') }}
-                            @endif
-                        </small>
+
                     </div>
                     <div class="d-flex justify-content-center">
-                        <button type="button" name="insert" class="btn btn-primary">Dodaj objavu</button>
+                        <button type="submit" name="insert" class="btn btn-primary">Dodaj objavu</button>
                     </div>
+                    <br>
+                    <small id="emailHelp" class="form-text text-muted">
+                        @if(session('error'))
+                            {{ session('error') }}
+                        @endif
+                    </small>
                 </div>
             </form>
         </div>

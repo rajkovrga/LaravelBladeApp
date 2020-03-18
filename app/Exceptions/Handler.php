@@ -63,7 +63,11 @@ class Handler extends ExceptionHandler
             return redirect('/404');
 
         }
+        if($exception instanceof AuthException)
+        {
+            return redirect('/forbidden');
 
+        }
 
 //        if($exception instanceof Exception)
 //        {

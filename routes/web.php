@@ -10,49 +10,52 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/','FrontController@home');
-Route::get('/home','FrontController@home');
 
-Route::get('/login','FrontController@login');
-Route::post('/login','AuthController@login');
+Route::middleware(['no_guest'])->group(function ()
+{
+    Route::get('/logout','AuthController@logout');
+    Route::get('/comments/{id}/page/{page}','PostController@moreComments');
+    Route::post('/create/comment/{id}','PostController@createComment');
+    Route::post('/post/like','PostController@like');
+    Route::post('/post/unlike','PostController@unlike');
+    Route::post('/comment/like','PostController@likeComment');
+    Route::post('/comment/unlike','PostController@unlikeComment');
+    Route::post('/post/update/{id}','PostController@edit');
+    Route::post('/delete/{id}','PostController@delete');
+    Route::get('/profile','FrontController@profile');
+    Route::post('/change/email','AuthController@changeEmail');
+    Route::post('/change/username','AuthController@changeUsername');
+    Route::post('/user/deactive','AuthController@deactiveUser');
+    Route::post('/change/password','AuthController@changePassword');
+    Route::post('/change/image','AuthController@changeImage');
+    Route::post('/post/create','PostController@create');
+});
 
-Route::get('/blog','FrontController@blog');
+Route::middleware([])->group(function ()
+{
+    Route::get('/404','FrontController@notfound');
+    Route::get('/500','FrontController@notfound');
+    Route::get('/forbidden','FrontController@forbidden');
+    Route::get('/verify/email','AuthController@verify')->name('verify.email');
+    Route::post('/verify/again','AuthController@againVerify');
+    Route::get('/result','FrontController@result');
+    Route::get('/blog/{id}','FrontController@post');
+    Route::get('/blog','FrontController@blog');
+    Route::get('/','FrontController@home');
+    Route::get('/home','FrontController@home');
+    Route::get('/login','FrontController@login');
+    Route::post('/login','AuthController@login');
+    Route::post('/contact','AuthController@contact');
+    Route::get('/contact','FrontController@contact');
+    Route::post('/register','AuthController@registration');
+    Route::get('/verify','FrontController@verifyAccount');
+});
 
-Route::get('/logout','AuthController@logout');
 
-Route::post('/contact','AuthController@contact');
-Route::get('/contact','FrontController@contact');
-
-Route::get('/verify','FrontController@verifyAccount');
-Route::post('/register','AuthController@registration');
-
-Route::get('/verify/email','AuthController@verify')->name('verify.email');
-Route::post('/verify/again','AuthController@againVerify');
-Route::get('/result','FrontController@result');
-
-Route::get('/blog/{id}','FrontController@post');
-Route::get('/comments/{id}/page/{page}','PostController@moreComments');
-Route::post('/create/comment/{id}','PostController@createComment');
-Route::post('/post/like','PostController@like');
-Route::post('/post/unlike','PostController@unlike');
-Route::post('/comment/like','PostController@likeComment');
-Route::post('/comment/unlike','PostController@unlikeComment');
-Route::post('/post/update/{id}','PostController@edit');
-Route::post('/delete/{id}','PostController@delete');
-Route::get('/profile','FrontController@profile');
-Route::get('/404','FrontController@notfound');
-Route::get('/500','FrontController@notfound');
-Route::get('/forbidden','FrontController@forbidden');
-Route::post('/change/email','AuthController@changeEmail');
-Route::post('/change/username','AuthController@changeUsername');
-Route::post('/user/deactive','AuthController@deactiveUser');
-
-Route::post('/change/password','AuthController@changePassword');
-Route::post('/change/image','AuthController@changeImage');
-
-Route::prefix('dashboard')->group(function ()
+Route::middleware(['dashboard'])->prefix('dashboard')->group(function ()
 {
     Route::get('/','FrontController@dashboard');
     Route::get('/insert','FrontController@insertPostDashboard');
-
+    Route::get('/top/posts','FrontController@topPost');
+    Route::get('/top/comments','FrontController@topComment');
 });

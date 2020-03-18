@@ -5,6 +5,7 @@ namespace App\Services;
 
 use App\Models\Post;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class PostService
@@ -12,7 +13,7 @@ class PostService
 
     public function paginate($page = 1, $perPage = 6)
     {
-        $items = Post::query()->with('user')
+        $items = Post::query()->with('user')->orderBy('created_at','desc')
             ->paginate($perPage,['*'],'page',$page)
         ->onEachSide(1);
         return $items;
@@ -124,4 +125,36 @@ class PostService
 
     }
 
+    public function create($title, $desc, $userId)
+    {
+        $post = new Post([
+            'desc' => $desc,
+            'title' => $title
+        ]);
+
+        $post->user_id = $userId;
+
+        $post->saveOrFail();
+
+        return $post;
+    }
+
+    public function top5posts()
+    {
+        return  Post::query()->withCount('likes')->with('user')->withCount('comments')->orderBy('likes_count','desc')->orderBy('comments_count','desc')->paginate(5);
+    }
+    public function top5postsNew()
+    {
+        return  Post::query()->withCount('likes')->withCount('comments')->with('user')->orderBy('created_at','desc')->paginate(5);
+    }
+
+    public function top10comments()
+    {
+        return DB::table('comments')->select(DB::raw('comments.desc'),
+            DB::raw('comments.id'), DB::raw('users.username'),DB::raw('users.image_url')
+            ,DB::raw('count(comment_likes.comment_id) as numberLikes'), DB::raw('comments.post_id as id'))
+            ->join('users','users.id','=','comments.user_id')
+            ->leftJoin('comment_likes','comment_likes.comment_id','=','comments.id')->groupBy('comments.id')->orderBy('numberLikes','desc')
+            ->orderBy('comments.created_at','desc')->paginate(10);
+    }
 }

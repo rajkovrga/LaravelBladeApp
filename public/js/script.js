@@ -2,9 +2,9 @@ document.addEventListener("DOMContentLoaded",function() {
     let moreCommentsBtn = document.getElementById('more-comments')
     let comments = document.getElementById('comment-items')
     if (moreCommentsBtn) {
-        moreCommentsBtn.addEventListener('click',  () => {
-            let id = this.getAttribute('data-id');
-            let page = this.getAttribute('data-page');
+        moreCommentsBtn.addEventListener('click',  () =>  {
+            let id = moreCommentsBtn.getAttribute('data-id');
+            let page = moreCommentsBtn.getAttribute('data-page');
             let next = parseInt(page) + 1;
             axios.get('/comments/' + id + "/page/" + next)
                 .then((result) => {
@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded",function() {
 
         for (let i = 0; i < commentLikeButton.length; i++)
         {
-            commentLikeButton[i].addEventListener('click', () => {
+            commentLikeButton[i].addEventListener('click', function() {
                 let id = this.getAttribute('data-id');
                 let postId = this.getAttribute('data-post');
                 if(commentLikeButton[i].classList.contains('heart-red'))
