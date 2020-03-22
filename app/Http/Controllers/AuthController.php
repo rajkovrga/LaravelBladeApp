@@ -20,6 +20,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
 use Mockery\Exception;
+use PhpParser\Error;
 
 class AuthController extends Controller
 {
@@ -337,7 +338,7 @@ class AuthController extends Controller
 
         try {
             $imageUrl = $this->userService->changeImage($image, auth()->user()->id);
-            return response()->json(['url' => $imageUrl],200);
+            return response()->json(['url' => asset('/images/avatars/' . $imageUrl)],200);
         }
         catch (FileNotFoundException $er)
         {
@@ -348,6 +349,64 @@ class AuthController extends Controller
         {
             Log::error($er->getMessage());
             return response()->json(['message' => 'Error'],500);
+        }
+    }
+
+    public function downloadActivities(Request $request)
+    {
+        $request->validate([
+           'date' => 'date|required|'
+        ]);
+
+        try {
+
+            $activities = $this->userService->getActivitiesForDay($request->input('date'));
+
+            return response()->streamDownload(function () use ($activities)
+            {
+                    echo $activities;
+            },'activities.txt', [
+                'Content-Type' => 'text/csv',
+                'Content-Disposition' => 'attachment; filename=activities.txt',
+            ]);
+        }
+        catch (ModelNotFoundException $er)
+        {
+            Log::error($er->getMessage());
+            return redirect()->back()->with(['error' => 'Greska sa pronalazenjem aktivnosti']);
+        }
+        catch (Exception $er)
+        {
+            Log::error($er->getMessage());
+            return redirect()->back()->with(['error' => 'Doslo je do greske']);
+        }
+    }
+    public function changeRole(Request $request)
+    {
+        $request->validate([
+           'username' => 'required',
+           'role' => 'required|exists:roles,id'
+        ]);
+
+        try {
+
+            if($request->username == auth()->user()->username)
+            {
+                throw new Exception();
+            }
+
+            $this->userService->changeRole($request->input('username'),$request->input('role'));
+            return redirect()->back()->with(['error' => 'Uspesno promenjeno']);
+        }
+        catch (ModelNotFoundException $er)
+        {
+            Log::error($er->getMessage());
+            return redirect()->back()->with(['error' => 'Ne postoji korisnik']);
+        }
+        catch (Exception $er)
+        {
+            Log::error($er->getMessage());
+            return redirect()->back()->with(['error' => 'Doslo je do greske']);
         }
     }
 }

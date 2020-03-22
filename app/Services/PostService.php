@@ -151,7 +151,7 @@ class PostService
     public function top10comments()
     {
         return DB::table('comments')->select(DB::raw('comments.desc'),
-            DB::raw('comments.id'), DB::raw('users.username'),DB::raw('users.image_url')
+            DB::raw('comments.id'), DB::raw('users.username'),DB::raw('users.image_url'),DB::raw('users.image_url')
             ,DB::raw('count(comment_likes.comment_id) as numberLikes'), DB::raw('comments.post_id as id'))
             ->join('users','users.id','=','comments.user_id')
             ->leftJoin('comment_likes','comment_likes.comment_id','=','comments.id')->groupBy('comments.id')->orderBy('numberLikes','desc')

@@ -58,6 +58,7 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
 
+
         if($exception instanceof NotFoundHttpException)
         {
             return redirect('/404');
@@ -69,10 +70,10 @@ class Handler extends ExceptionHandler
 
         }
 
-//        if($exception instanceof Exception)
-//        {
-//            return redirect('/500');
-//        }
+        if($exception->getCode() == 500)
+        {
+            return redirect('/500');
+        }
 
         return parent::render($request, $exception);
 

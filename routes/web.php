@@ -11,7 +11,7 @@
 |
 */
 
-Route::middleware(['no_guest'])->group(function ()
+Route::middleware(['no_guest','log'])->group(function ()
 {
     Route::get('/logout','AuthController@logout');
     Route::get('/comments/{id}/page/{page}','PostController@moreComments');
@@ -29,9 +29,11 @@ Route::middleware(['no_guest'])->group(function ()
     Route::post('/change/password','AuthController@changePassword');
     Route::post('/change/image','AuthController@changeImage');
     Route::post('/post/create','PostController@create');
+    Route::post('/download/activities','AuthController@downloadActivities');
+    Route::post('/change/role','AuthController@changeRole');
 });
 
-Route::middleware([])->group(function ()
+Route::middleware(['log'])->group(function ()
 {
     Route::get('/404','FrontController@notfound');
     Route::get('/500','FrontController@notfound');
@@ -52,12 +54,12 @@ Route::middleware([])->group(function ()
 });
 
 
-Route::middleware(['dashboard'])->prefix('dashboard')->group(function ()
+Route::middleware(['dashboard','log'])->prefix('dashboard')->group(function ()
 {
     Route::get('/','FrontController@dashboard');
     Route::get('/insert','FrontController@insertPostDashboard');
     Route::get('/top/posts','FrontController@topPost');
     Route::get('/top/comments','FrontController@topComment');
     Route::get('/users','FrontController@dashboardUsers');
-
+    Route::get('/activities','FrontController@userActivities');
 });

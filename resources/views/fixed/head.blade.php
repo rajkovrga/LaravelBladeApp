@@ -14,7 +14,7 @@
 
     @yield('style')
 
-    <title>Herbs Blade</title>
+    <title>Pitanja i odgovori</title>
 </head>
 <body>
 

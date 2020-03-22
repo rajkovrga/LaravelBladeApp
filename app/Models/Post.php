@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
@@ -25,4 +26,5 @@ class Post extends Model
     {
         return $this->belongsTo('App\Models\User','user_id');
     }
+
 }

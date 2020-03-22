@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded',function () {
 
         axios.post('/change/image',formData)
             .then(result => {
-                document.getElementById('image-avatar').src = result;
+                document.getElementById('image-avatar').src = result.data.url;
             })
             .catch((error) => {
                 if(error.response.status === 422)

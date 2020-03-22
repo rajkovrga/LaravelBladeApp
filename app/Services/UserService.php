@@ -14,6 +14,8 @@ use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Contracts\Hashing\Hasher;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManager;
+use Spatie\Activitylog\Models\Activity;
+use Spatie\Permission\Models\Role;
 
 class UserService
 {
@@ -159,4 +161,44 @@ class UserService
         $users = User::query()->with('roles')->orderBy('created_at','desc')->paginate($perPage, ['*'], 'page',$page);
         return $users;
     }
+
+    public function getActivities()
+    {
+        $activities = Activity::query()->orderBy('created_at','desc')->paginate(50);
+        return $activities;
+    }
+
+    public function getActivitiesForDay($date)
+    {
+
+        $rows = Activity::all()->whereBetween('created_at',[$date . ' 00:00:00', $date . '23:59:59']);
+
+        $content = "";
+
+        foreach ($rows as $row)
+        {
+            $props = $row->properties;
+            if(!isset($props['username'])){
+                $props['username'] = "neautentifikovan";
+            }
+            $content .= "{$props['method']}  {$props['path']} {$props['address']} {$row['created_at']}  {$props['username']} \n";
+        }
+
+        return $content;
+    }
+
+    public function getRoles()
+    {
+        return Role::all();
+    }
+
+    public function changeRole($username, $role_id)
+    {
+        $user = User::query()->where('username',$username)->firstOrFail();
+
+        $user->roles()->sync([$role_id]);
+
+    }
+
+
 }

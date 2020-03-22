@@ -17,7 +17,13 @@
             </div>
             <div class="sidebar-header">
                 <div class="user-pic">
-                    <img class="img-responsive img-rounded" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg"
+                    <img class="img-responsive img-rounded" src="
+                             @if(isset(auth()->user()->image_url))
+                            {{asset('/images/avatars/' . auth()->user()->image_url)}}
+                            @else
+                            {{asset('/images/avatar.jpg')}}
+                            @endif
+                            "
                          alt="User picture">
                 </div>
                 <div class="user-info">
@@ -62,6 +68,12 @@
                         <a href="/dashboard/users">
                             <i class="far fa-gem"></i>
                             <span>Prikaz korisnika</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/dashboard/activities">
+                            <i class="far fa-gem"></i>
+                            <span>Aktivnosti korisnika</span>
                         </a>
                     </li>
                 </ul>

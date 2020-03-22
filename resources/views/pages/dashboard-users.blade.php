@@ -6,18 +6,52 @@
 
 <div class="container bootstrap snippet">
     <div class="row">
+        <h4>Izmena uloge</h4>
+</div>
+
+    <div class="row">
+        <form action="/change/role" class="form-group" method="post">
+            @csrf
+            <label for="role">Korisnicko ime</label>
+            <input type="text" name="username" class="form-control" id="username">
+            @error('username')
+            <p>{{$message}}</p>
+            @enderror
+            <label for="role">Uloga</label>
+            <select class="form-control" name="role" id="role">
+                <option value="0">Odaberite</option>
+            @foreach($roles as $role)
+                    <option value="{{$role->id}}">{{$role->name}}</option>
+                @endforeach
+            </select>
+            @error('role')
+            <p>{{$message}}</p>
+            @enderror
+
+            <input type="submit" class="form-control" value="Promeni">
+
+            @if(session('error'))
+                <p>{{session('error')}}</p>
+            @endif
+
+        </form>
+    </div>
+    <br>
+    <div class="row">
+        <h4>Korisnici</h4>
+    </div>
+    <div class="row">
         <div class="col-lg-12">
             <div class="main-box no-header clearfix">
                 <div class="main-box-body clearfix">
                     <div class="table-responsive">
                         <table class="table user-list">
                             <thead>
-                            <tr >
+                            <tr>
                                 <th ><span>Korisnik</span></th>
                                 <th><span>Registrovan</span></th>
                                 <th class="text-center"><span>Aktivan</span></th>
                                 <th><span>Email</span></th>
-
                             </tr>
                             </thead>
                             <tbody>

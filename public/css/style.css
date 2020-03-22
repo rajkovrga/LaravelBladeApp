@@ -302,6 +302,11 @@ a {
     border-top: 1px solid #e7ebee;
     padding: 12px 8px;
 }
+
+.table tbody tr td.activity-cell
+{
+    padding: 0px 8px;
+}
 @media screen and (max-width: 700px)
 {
     .carousel-item img

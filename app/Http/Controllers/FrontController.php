@@ -142,24 +142,79 @@ class FrontController extends Controller
 
     public function topPost()
     {
-        return view('pages.top5-posts')->with(['top5' => $this->postService->top5posts(),
-            'top5in24' => $this->postService->top5postsNew()]);
+        try {
+            $top5 = $this->postService->top5posts();
+            $top5in24 = $this->postService->top5postsNew();
+        }
+        catch (ModelNotFoundException $er)
+        {
+            Log::error($er->getMessage());
+            abort(404);
+        }
+        catch (Exception $er)
+        {
+            Log::error($er->getMessage());
+            abort(500);
+        }
+
+        return view('pages.top5-posts')->with(['top5' => $top5,
+            'top5in24' => $top5in24]);
     }
 
     public function topComment()
     {
+        try {
+            $comments = $this->postService->top10comments();
+        }
+        catch (ModelNotFoundException $er)
+        {
+            Log::error($er->getMessage());
+            abort(404);
+        }
+        catch (Exception $er)
+        {
+            Log::error($er->getMessage());
+            abort(500);
+        }
 
-        return view('pages.top10comments')->with(['comments' => $this->postService->top10comments()]);
+        return view('pages.top10comments')->with(['comments' => $comments]);
     }
 
     public function dashboardUsers(Request $request)
     {
-        activity()->log('user');
-        return view('pages.dashboard-users')->with(['users' => $this->userService->dashboardUsers($request->get('page'))]);
+        try {
+            $users = $this->userService->dashboardUsers($request->get('page'));
+            $roles = $this->userService->getRoles();
+        }
+        catch (ModelNotFoundException $er)
+        {
+            Log::error($er->getMessage());
+            abort(404);
+        }
+        catch (Exception $er)
+        {
+            Log::error($er->getMessage());
+            abort(500);
+        }
+        return view('pages.dashboard-users')->with(['users' => $users, 'roles' => $roles]);
     }
 
     public function userActivities()
     {
 
+        try {
+            $activities = $this->userService->getActivities();
+        }
+        catch (ModelNotFoundException $er)
+        {
+            Log::error($er->getMessage());
+            abort(404);
+        }
+        catch (Exception $er)
+        {
+            Log::error($er->getMessage());
+            abort(500);
+        }
+        return view('pages.activities')->with(['activities' => $activities]);
     }
 }

@@ -16,7 +16,16 @@ document.addEventListener("DOMContentLoaded",function() {
                     result.data.data.forEach((row) => {
                         newData += `<div class="row">
                         <div class="col-3 d-flex text-center justify-content-center align-items-center flex-column">
-                            <img src="${window.location.origin}/images/avatar.jpg" alt="avatar" class="image-avatar">
+                            <img src="`;
+
+                            if(row.image_url == null){
+                                newData += "/images/avatar.jpg";
+                            }
+                            else {
+                                newData += `/images/avatars/${row.image_url}`;
+                            }
+
+                        newData += `" alt="avatar" class="image-avatar">
                             <span>${row.username}</span>
                             <span class="d-flex justify-content-center flex-column align-items-center">
                                 <i class="heart-item fa fa-heart `;

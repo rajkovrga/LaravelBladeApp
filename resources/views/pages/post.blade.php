@@ -137,7 +137,11 @@
                     @foreach($comments as $item)
                     <div class="row comment-box">
                         <div class="col-3 d-flex text-center justify-content-start align-items-center flex-column">
-                            <img src="{{url('images/' .$item->image_url)}}" alt="avatar" class="image-avatar">
+                            <img src=" @if(isset($item->image_url))
+                            {{asset('/images/avatars/' . $item->image_url)}}
+                            @else
+                            {{asset('/images/avatar.jpg')}}
+                            @endif" alt="avatar" class="image-avatar">
                             <span>{{$item->username}}   </span>
                             <span class="d-flex justify-content-center flex-column align-items-center">
                                 <i class="heart-item fa fa-heart
