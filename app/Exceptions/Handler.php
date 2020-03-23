@@ -57,25 +57,6 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-
-
-        if($exception instanceof NotFoundHttpException)
-        {
-            return redirect('/404');
-
-        }
-        if($exception instanceof AuthException)
-        {
-            return redirect('/forbidden');
-
-        }
-
-        if($exception->getCode() == 500)
-        {
-            return redirect('/500');
-        }
-
         return parent::render($request, $exception);
-
     }
 }

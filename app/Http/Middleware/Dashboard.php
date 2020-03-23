@@ -17,7 +17,7 @@ class Dashboard
 
         if(!auth()->user()->can('use-dashboard'))
         {
-            throw new AuthException();
+            abort(403);
         }
 
         return $next($request);

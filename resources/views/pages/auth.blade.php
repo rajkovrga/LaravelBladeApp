@@ -14,7 +14,7 @@
             <div class="form-group">
                 <label for="exampleInputEmail1">Email adresa</label>
 
-                <input id="login_email" name="login_email"  type="email" class="form-control" aria-describedby="emailHelp" placeholder="Email">
+                <input id="login_email" name="login_email"  type="text" class="form-control" aria-describedby="emailHelp" placeholder="Email">
                 @error('login_email')
                 <small id="emailHelp" class="form-text text-muted">{{$message}}</small>
                 @enderror
@@ -32,7 +32,7 @@
                     @endif
                 </small>
             </div>
-
+            <a href="/forget/password">Zaboravio si lozinku?</a> <br>
             <button type="submit" class="btn btn-primary">Uloguj se</button>
         </form>
     </div>
@@ -52,15 +52,15 @@
             </div>
             <div class="form-group">
                 <label for="exampleInputEmail1">Email adresa</label>
-                <input id="email" type="email" name="email" class="form-control" aria-describedby="emailHelp" placeholder="Email adresa">
+                <input id="email" type="text" name="email" class="form-control" aria-describedby="emailHelp" placeholder="Email adresa">
                 @error('email')
-                <small id="emailHelp" class="form-text text-muted">Email adresa nije odgovarajuca</small>
+                <small id="emailHelp" class="form-text text-muted">{{$message}}</small>
                 @enderror                 </div>
             <div class="form-group">
                 <label for="exampleInputPassword1">Lozinka</label>
                 <input id="password" type="password"  name="password" class="form-control" placeholder="Lozinka">
                 @error('password')
-                <small id="emailHelp" class="form-text text-muted">Lozinka nije odgovarajuca</small>
+                <small id="emailHelp" class="form-text text-muted">{{$message}}</small>
                 @enderror
 
                 <small id="emailHelp" class="form-text text-muted">

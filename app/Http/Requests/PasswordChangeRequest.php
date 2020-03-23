@@ -35,8 +35,8 @@ class PasswordChangeRequest extends FormRequest
         return [
           'oldPass.required' => 'Stara lozinka obavezna',
           'newPass.required' => 'Nova lozinka obavezna',
-          'newPassAgain.required' => 'Ponovna lozinak obavezna',
-            'min' => 'Lozinka mora biti duza od :min karaktera',
+          'newPassAgain.required' => 'Ponovna lozinka obavezna',
+            'min' => 'Lozinka mora biti du\a od :min karaktera',
             'same' => 'Lozinke nisu jednake'
         ];
     }

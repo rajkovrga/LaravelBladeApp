@@ -8,8 +8,17 @@ use App\Exceptions\NotActiveException;
 use App\Exceptions\NotVerifyException;
 use App\Exceptions\PasswordNotException;
 use App\Exceptions\VerifyException;
+use App\Http\Requests\ChangeRoleRequest;
+use App\Http\Requests\ChangeUsernameRequest;
+use App\Http\Requests\ContactRequest;
+use App\Http\Requests\DownloadActivitiesRequest;
+use App\Http\Requests\EmailRequest;
+use App\Http\Requests\FileRequest;
+use App\Http\Requests\LoginRequest;
 use App\Http\Requests\PasswordChangeRequest;
+use App\Http\Requests\RegistartionRequest;
 use App\Notifications\ContactNotify;
+use App\Notifications\ResetPassword;
 use App\Notifications\VerifyNofify;
 use App\Services\UserService;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -20,7 +29,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
 use Mockery\Exception;
-use PhpParser\Error;
 
 class AuthController extends Controller
 {
@@ -35,13 +43,13 @@ class AuthController extends Controller
     public function verify(Request $request)
     {
         if(!$request->hasValidSignature())
-            return redirect('/verify')->with(['error' => 'Verifikacioni link istekao, unesite ispod Vas email i pokusajte ponovo']);
+            return redirect('/verify')->with(['error' => 'Verifikacioni link istekao, unesite ispod Vaš email i pokušajte ponovo']);
 
         $email = $request->all()['data'];
 
         try {
             $this->userService->verify($email);
-            return redirect('/result')->with(['error' => 'Korisnik uspesno verifikovan','show_button'=> true]);
+            return redirect('/result')->with(['error' => 'Korisnik uspešno verifikovan','show_button'=> true]);
         }
         catch (ModelNotFoundException $er)
         {
@@ -52,54 +60,46 @@ class AuthController extends Controller
         catch(Exception $er)
         {
             Log::error($er->getMessage());
-            return redirect('/result')->with(['error' => 'Doslo je do greske']);
+            return redirect('/result')->with(['error' => 'Došlo je do greške']);
         }
     }
 
-    public function registration(Request $request)
+    public function registration(RegistartionRequest $request)
     {
-        $request->validate([
-            'username' => 'required|min:6|max:20',
-            'password' => 'required|min:6',
-            'email' => 'required|email'
-        ]);
-
+        $data = $request->validated();
         try {
 
             $user = $this->userService->register(new RegisterDto([
-                'username' => $request->input('username'),
-                'email' => $request->input('email'),
-                'password' => $request->input('password')
+                'username' => $data['username'],
+                'email' =>  $data['email'],
+                'password' => $data['password']
             ]));
 
             $user->notify((new VerifyNofify($user->email))->delay(now()->addSeconds(4)));
             $user->assignRole('user');
-            return redirect('/login')->with(['error' => 'Verifikujte Vas nalog']);
+            return redirect('/login')->with(['error' => 'Verifikujte Vaš nalog']);
 
         }
         catch (QueryException $er)
         {
             Log::error($er->getMessage());
-            return redirect('/login')->with(['error' => 'Korisnik vec postoji']);
+            return redirect('/login')->with(['error' => 'Korisnik već postoji']);
         }
         catch(Exception $er)
         {
             Log::error($er->getMessage());
-            return redirect('/login')->with(['error' => 'Doslo je do greske']);
+            return redirect('/login')->with(['error' => 'Došlo je do greške']);
         }
     }
 
-    public function againVerify(Request $request)
+    public function againVerify(EmailRequest $request)
     {
-        $request->validate([
-            'email' => 'email'
-        ]);
-
+        $data = $request->validated();
         try {
-            $user = $this->userService->checkEmail($request->input('email'));
+            $user = $this->userService->checkEmail($data['email']);
             $user->notify((new VerifyNofify($user->email))->delay(now()->addSeconds(50)));
 
-            return redirect('/verify')->with(['error' => 'Verifikujte Vas email']);
+            return redirect('/verify')->with(['error' => 'Verifikujte Vaš email']);
         }
         catch(ModelNotFoundException $er)
         {
@@ -109,26 +109,23 @@ class AuthController extends Controller
         catch (VerifyException $er)
         {
             Log::error($er->getMessage());
-            return redirect('/verify')->with(['error' => 'Korisnik je vec verifikovan']);
+            return redirect('/verify')->with(['error' => 'Korisnik je već verifikovan']);
         }
         catch(Exception $er)
         {
             Log::error($er->getMessage());
-            return redirect('/verify')->with(['error' => 'Doslo je do greske']);
+            return redirect('/verify')->with(['error' => 'Došlo je do greške']);
         }
 
     }
 
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        $request->validate([
-           'login_email' => 'required|email',
-           'login_password' => 'required'
-        ]);
+        $data = $request->validated();
 
         try
         {
-            $user = $this->userService->login($request->input('login_email'),$request->input('login_password'));
+            $user = $this->userService->login($data['login_email'],$data['login_password']);
 
             auth()->login($user);
             return redirect('/');
@@ -136,22 +133,22 @@ class AuthController extends Controller
         catch(ModelNotFoundException $er)
         {
             Log::error($er->getMessage());
-            return redirect('/login')->with(['error-login' => 'Podaci nisu tacni']);
+            return redirect('/login')->with(['error-login' => 'Podaci nisu tačni']);
         }
         catch (PasswordNotException $er)
         {
             Log::error($er->getMessage());
-            return redirect('/login')->with(['error-login' => 'Podaci nisu tacni']);
+            return redirect('/login')->with(['error-login' => 'Podaci nisu tačni']);
         }
         catch (NotVerifyException $er)
         {
             Log::error($er->getMessage());
-            return redirect('/verify')->with(['error' => 'Verifikujte Vas nalog']);
+            return redirect('/verify')->with(['error' => 'Verifikujte Vaš nalog']);
         }
         catch (NotActiveException $er)
         {
             Log::error($er->getMessage());
-            return redirect('/verify')->with(['error' => 'Nalopg deaktiviran, ako zelite opet da ga aktivirate verifikujte vas nalog']);
+            return redirect('/verify')->with(['error' => 'Nalopg deaktiviran, ako želite opet da ga aktivirate verifikujte vaš nalog']);
         }
         catch(Exception $er)
         {
@@ -163,11 +160,6 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-
-        if(!auth()->check()) {
-            throw new AuthorizationException();
-        }
-
         try {
             if(auth()->check())
             {
@@ -183,45 +175,35 @@ class AuthController extends Controller
 
     }
 
-    public function contact(Request $request)
+    public function contact(ContactRequest $request)
     {
-        $request->validate([
-            'desc' => 'required|min:10',
-            'title' => 'required|min:4',
-            'email' => 'required|email'
-        ]);
+        $data = $request->validated();
 
         try {
             Notification::route('mail', env('MAIL_USERNAME'))
                 ->notify((new ContactNotify(new ContactDto([
-                    'title' => $request->input('title'),
-                    'desc' => $request->input('desc'),
-                    'email' => $request->input('email')
+                    'title' => $data['title'],
+                    'desc' => $data['desc'],
+                    'email' => $data['email']
                 ]))));
-            return redirect('/contact')->with(['error' => 'Uspesno poslato']);
+            return redirect('/contact')->with(['error' => 'Uspešno poslato']);
 
         }
         catch(Exception $er)
         {
             Log::error($er->getMessage());
-            return redirect('/contact')->with(['error' => 'Doslo je do greske']);
+            return redirect('/contact')->with(['error' => 'Došlo je do greške']);
         }
     }
 
-    public function changeEmail(Request $request)
+    public function changeEmail(EmailRequest $request)
     {
-        $request->validate([
-            'email' => 'required|email'
-        ]);
-
-        if(!auth()->check()) {
-            throw new AuthorizationException();
-        }
+        $data = $request->validated();
 
         try {
-            $this->userService->changeEmail(auth()->user()->id, $request->input('email'));
+            $this->userService->changeEmail(auth()->user()->id, $data['email']);
 
-            return redirect()->back()->with(['error-email' => 'Uspesno promenjeno, verifikujte nalog ponovo prilikom sledeceg logovanja']);
+            return redirect()->back()->with(['error-email' => 'Uspešno promenjeno, verifikujte nalog ponovo prilikom sledećeg logovanja']);
         }
         catch (ModelNotFoundException $er)
         {
@@ -236,23 +218,17 @@ class AuthController extends Controller
         catch (Exception $er)
         {
             Log::error($er->getMessage());
-            return redirect()->back()->with(['error-email' => 'Doslo je do greske']);
+            return redirect()->back()->with(['error-email' => 'Došlo je do greške']);
         }
     }
 
-    public function changeUsername(Request $request)
+    public function changeUsername(ChangeUsernameRequest $request)
     {
-        $request->validate([
-            'username' => 'required|min:6|max:20'
-        ]);
-
-        if(!auth()->check()) {
-            throw new AuthorizationException();
-        }
+        $data = $request->validated();
 
         try {
-            $this->userService->changeUsername(auth()->user()->id, $request->input('username'));
-            return redirect()->back()->with(['error-uname' => 'Uspesno promenjeno']);
+            $this->userService->changeUsername(auth()->user()->id, $data['username']);
+            return redirect()->back()->with(['error-uname' => 'Uspešno promenjeno']);
         }
         catch (ModelNotFoundException $er)
         {
@@ -262,21 +238,17 @@ class AuthController extends Controller
         catch (\PDOException $er)
         {
             Log::error($er->getMessage());
-            return redirect()->back()->with(['error-uname' => 'Korisnicko ime je zauzeto']);
+            return redirect()->back()->with(['error-uname' => 'Korisničko ime je zauzeto']);
         }
         catch (Exception $er)
         {
             Log::error($er->getMessage());
-            return redirect()->back()->with(['error-uname' => 'Doslo je do greske']);
+            return redirect()->back()->with(['error-uname' => 'Došlo je do greške']);
         }
     }
 
     public function deactiveUser(Request $request)
     {
-
-        if(!auth()->check()) {
-            throw new AuthorizationException();
-        }
 
         try {
             $this->userService->deactiveUser(auth()->user()->id);
@@ -291,7 +263,7 @@ class AuthController extends Controller
         catch (Exception $er)
         {
             Log::error($er->getMessage());
-            return redirect()->back()->with(['error-uname' => 'Doslo je do greske']);
+            return redirect()->back()->with(['error-uname' => 'Došlo je do greške']);
         }
     }
 
@@ -300,10 +272,6 @@ class AuthController extends Controller
     {
         $data = $request->validated();
 
-        if(!auth()->check()) {
-            throw new AuthorizationException();
-        }
-
         try {
             $this->userService->changePassword($data['oldPass'], $data['newPass'], auth()->user()->id);
             return redirect()->back()->with(['password-error' => 'Lozinka promenjena']);
@@ -311,7 +279,7 @@ class AuthController extends Controller
         catch (PasswordNotException $er)
         {
             Log::error($er->getMessage());
-            return redirect()->back()->with(['password-error' => 'Stara lozinka nije odgovarajuca']);
+            return redirect()->back()->with(['password-error' => 'Stara lozinka nije odgovarajuća']);
         }
         catch (ModelNotFoundException $er)
         {
@@ -321,19 +289,14 @@ class AuthController extends Controller
         catch (Exception $er)
         {
             Log::error($er->getMessage());
-            return redirect()->back()->with(['password-error' => 'Doslo je do greske']);
+            return redirect()->back()->with(['password-error' => 'Došlo je do greške']);
         }
     }
 
-    public function changeImage(Request $request)
+    public function changeImage(FileRequest $request)
     {
-        $request->validate([
-            'file' => 'file|mimes:png,gif,jpg,jpeg|max:3000'
-        ]);
+        $request->validated();
 
-        if(!auth()->check()) {
-            throw new AuthorizationException();
-        }
         $image = $request->file('file');
 
         try {
@@ -352,15 +315,13 @@ class AuthController extends Controller
         }
     }
 
-    public function downloadActivities(Request $request)
+    public function downloadActivities(DownloadActivitiesRequest $request)
     {
-        $request->validate([
-           'date' => 'date|required|'
-        ]);
+        $data = $request->validated();
 
         try {
 
-            $activities = $this->userService->getActivitiesForDay($request->input('date'));
+            $activities = $this->userService->getActivitiesForDay($data['date']);
 
             return response()->streamDownload(function () use ($activities)
             {
@@ -373,20 +334,17 @@ class AuthController extends Controller
         catch (ModelNotFoundException $er)
         {
             Log::error($er->getMessage());
-            return redirect()->back()->with(['error' => 'Greska sa pronalazenjem aktivnosti']);
+            return redirect()->back()->with(['error' => 'Greška sa pronalaženjem aktivnosti']);
         }
         catch (Exception $er)
         {
             Log::error($er->getMessage());
-            return redirect()->back()->with(['error' => 'Doslo je do greske']);
+            return redirect()->back()->with(['error' => 'Došlo je do greške']);
         }
     }
-    public function changeRole(Request $request)
+    public function changeRole(ChangeRoleRequest $request)
     {
-        $request->validate([
-           'username' => 'required',
-           'role' => 'required|exists:roles,id'
-        ]);
+        $date = $request->validated();
 
         try {
 
@@ -395,8 +353,8 @@ class AuthController extends Controller
                 throw new Exception();
             }
 
-            $this->userService->changeRole($request->input('username'),$request->input('role'));
-            return redirect()->back()->with(['error' => 'Uspesno promenjeno']);
+            $this->userService->changeRole($date['username'],$date['role']);
+            return redirect()->back()->with(['error' => 'Uspešno promenjeno']);
         }
         catch (ModelNotFoundException $er)
         {
@@ -406,7 +364,31 @@ class AuthController extends Controller
         catch (Exception $er)
         {
             Log::error($er->getMessage());
-            return redirect()->back()->with(['error' => 'Doslo je do greske']);
+            return redirect()->back()->with(['error' => 'Došlo je do greške']);
         }
     }
+
+    public function sendResetPasswordLink(EmailRequest $request)
+    {
+        $data = $request->validated();
+
+        try {
+            $user = $this->userService->checkUser($data['email']);
+            $user->notify((new ResetPassword($user->email))->delay(now()->addSeconds(4)));
+
+            return redirect()->back()->with(['error' => 'Resetujte Vašu lozniku, posetite email']);
+        }
+        catch (ModelNotFoundException $er)
+        {
+            Log::error($er->getMessage());
+            return redirect()->back()->with(['error' => 'Ne postoji korisnik']);
+        }
+        catch (Exception $er)
+        {
+            Log::error($er->getMessage());
+            return redirect()->back()->with(['error' => 'Došlo je do greške']);
+        }
+    }
+
+
 }

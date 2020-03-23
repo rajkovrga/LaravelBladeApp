@@ -38,7 +38,7 @@ Route::middleware(['log'])->group(function ()
     Route::get('/404','FrontController@notfound');
     Route::get('/500','FrontController@notfound');
     Route::get('/forbidden','FrontController@forbidden');
-    Route::get('/verify/email','AuthController@verify')->name('verify.email');
+    Route::middleware(['signed'])->get('/verify/email','AuthController@verify')->name('verify.email');
     Route::post('/verify/again','AuthController@againVerify');
     Route::get('/result','FrontController@result');
     Route::get('/blog/{id}','FrontController@post');
@@ -51,6 +51,9 @@ Route::middleware(['log'])->group(function ()
     Route::get('/contact','FrontController@contact');
     Route::post('/register','AuthController@registration');
     Route::get('/verify','FrontController@verifyAccount');
+    Route::get('/forget/password','FrontController@forgetPassword');
+    Route::post('/reset/password','AuthController@sendResetPasswordLink');
+    Route::middleware(['signed'])->get('/reset/password','FrontController@resetPassword')->name('reset.password');
 });
 
 

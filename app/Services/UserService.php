@@ -195,9 +195,14 @@ class UserService
     public function changeRole($username, $role_id)
     {
         $user = User::query()->where('username',$username)->firstOrFail();
-
         $user->roles()->sync([$role_id]);
+    }
 
+    public function checkUser($email)
+    {
+        $user = User::query()->where('email', $email)->firstOrFail();
+
+        return $user;
     }
 
 

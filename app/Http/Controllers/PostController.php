@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\AuthException;
+use App\Http\Requests\CreateCommentRequest;
 use App\Http\Requests\CreatePostRequest;
+use App\Http\Requests\EditPostRequest;
 use App\Models\Post;
 use App\Services\PostService;
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use Mockery\Exception;
 
 class PostController extends Controller
 {
@@ -41,18 +41,11 @@ class PostController extends Controller
 
     }
 
-    public function createComment(Request $request, $id)
+    public function createComment(CreateCommentRequest $request, $id)
     {
-        $request->validate([
-           'comment-area' => 'required|min:5'
-        ]);
-
-        if(!auth()->check())
-        {
-            return redirect('/');
-        }
+        $data = $request->validated();
         try {
-            $this->postService->createComment($request->input('comment-area'),auth()->user()->id,$id);
+            $this->postService->createComment($data['comment-area'],auth()->user()->id,$id);
             return redirect()->back();
         }
         catch (ModelNotFoundException $er)
@@ -69,11 +62,6 @@ class PostController extends Controller
 
     public function like(Request $request)
     {
-        if(!auth()->check())
-        {
-            throw new AuthException('User not logged',403);
-        }
-
         try {
             $numberLikes = $this->postService->like($request->input('id'),auth()->user()->id);
             return response()->json(['number' => $numberLikes],200);
@@ -93,11 +81,6 @@ class PostController extends Controller
 
     public function unlike(Request $request)
     {
-        if(!auth()->check())
-        {
-            throw new AuthException('User not logged',403);
-        }
-
         try {
             $numberLikes = $this->postService->unlike($request->input('id'),auth()->user()->id);
             return response()->json(['number' => $numberLikes],200);
@@ -117,12 +100,6 @@ class PostController extends Controller
     public function likeComment(Request $request)
     {
 
-        if(!auth()->check())
-        {
-            throw new AuthException('User not logged',403);
-        }
-
-
         try {
             $numberLikes = $this->postService->likeComment($request->input('id'),auth()->user()->id, $request->input('postId'));
             return response()->json(['number' => $numberLikes],200);
@@ -141,12 +118,6 @@ class PostController extends Controller
 
     public function unlikeComment(Request $request)
     {
-        if(!auth()->check())
-        {
-            throw new AuthException('User not logged',403);
-        }
-
-
         try {
             $numberLikes = $this->postService->unlikeComment($request->input('id'),auth()->user()->id, $request->input('postId'));
             return response()->json(['number' => $numberLikes],200);
@@ -163,16 +134,12 @@ class PostController extends Controller
         }
     }
 
-    public function edit(Request $request, $id)
+    public function edit(EditPostRequest $request, $id)
     {
-        $request->validate([
-            'title' => 'required|min:6',
-            'desc' => 'required|min:10'
-        ]);
-
+        $data = $request->validated();
         try {
 
-            $this->postService->edit($id,$request->input('title'),$request->input('desc'));
+            $this->postService->edit($id,$data['title'],$data['desc']);
             return redirect()->back();
         }
         catch (ModelNotFoundException $er)
@@ -186,7 +153,7 @@ class PostController extends Controller
         {
             Log::error($er->getMessage());
             return redirect()->back()->with([
-                'error' => 'Doslo je do greske, izmena nije uspela'
+                'error' => 'Došlo je do greške, izmena nije uspela'
             ]);
         }
     }
@@ -196,7 +163,7 @@ class PostController extends Controller
         try {
             $this->postService->delete($id);
             return redirect('/result')->with([
-                'result' => 'Uspesno obrisano'
+                'result' => 'Uspešno obrisano'
             ]);
         }
         catch (ModelNotFoundException $er)
@@ -210,7 +177,7 @@ class PostController extends Controller
         {
             Log::error($er->getMessage());
             return redirect('/result')->with([
-                'error' => 'Doslo je do greske, brisanje nije uspelo'
+                'error' => 'Došlo je do greške, brisanje nije uspelo'
             ]);
         }
     }
@@ -218,11 +185,6 @@ class PostController extends Controller
     public function create(CreatePostRequest $request)
         {
             $data = $request->validated();
-
-            if(!auth()->check())
-            {
-                throw new AuthException('User not logged',403);
-            }
 
             try {
                 $post = $this->postService->create($data['title'], $data['desc'],auth()->user()->id);
@@ -240,7 +202,7 @@ class PostController extends Controller
             {
                 Log::error($er->getMessage());
                 return redirect()->back()->with([
-                    'error' => 'Doslo je do greske, kreiranje nije uspelo'
+                    'error' => 'Došlo je do greške, kreiranje nije uspelo'
                 ]);
             }
         }

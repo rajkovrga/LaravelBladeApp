@@ -1,12 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Exceptions\AuthException;
 use App\Services\PostService;
 use App\Services\UserService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
-use Illuminate\Session;
 use Illuminate\Support\Facades\Log;
 use Mockery\Exception;
 
@@ -129,7 +127,7 @@ class FrontController extends Controller
     {
         if(!auth()->user()->can('add-post'))
         {
-            throw new AuthException();
+            abort(403);
         }
 
         return view('pages.dashboard-insert-post');
@@ -216,5 +214,15 @@ class FrontController extends Controller
             abort(500);
         }
         return view('pages.activities')->with(['activities' => $activities]);
+    }
+
+    public function forgetPassword()
+    {
+        return view('pages.forget-password');
+    }
+
+    public function resetPassword(Request $request)
+    {
+        return view('pages.reset-password');
     }
 }

@@ -2,25 +2,23 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d28620c4-462e-4c95-b2ad-d99499e49fb1" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/app/Notifications/ResetPassword.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/mail/reset.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/pages/forget-password.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Exceptions/AuthException.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Exceptions/Handler.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Exceptions/Handler.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/AuthController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/AuthController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/FrontController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/FrontController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Kernel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Post.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Post.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Services/PostService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/PostService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/PostController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/PostController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/Dashboard.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/Dashboard.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/CreatePostRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/CreatePostRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/PasswordChangeRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/PasswordChangeRequest.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Services/UserService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/UserService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/filesystems.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/filesystems.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/profile.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/profile.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/script.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/fixed/admin-menu.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/fixed/admin-menu.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/fixed/head.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/fixed/head.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/pages/dashboard-users.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/pages/dashboard-users.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/pages/post.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/pages/post.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/pages/profile.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/pages/profile.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/pages/top10comments.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/pages/top10comments.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/pages/auth.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/pages/auth.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/pages/forbidden.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/errors/403.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/pages/internal.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/errors/500.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/pages/notfound.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/errors/404.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -168,6 +166,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Rajko\Desktop\LaravelBladeApp\resources\views\errors" />
       <recent name="$PROJECT_DIR$/public/js" />
       <recent name="$PROJECT_DIR$/public/css" />
     </key>
@@ -213,7 +212,7 @@
       <workItem from="1584541619698" duration="19685000" />
       <workItem from="1584737696228" duration="188000" />
       <workItem from="1584739441773" duration="20599000" />
-      <workItem from="1584882210732" duration="914000" />
+      <workItem from="1584882210732" duration="15971000" />
     </task>
     <servers />
   </component>
@@ -230,6 +229,10 @@
       <screen x="67" y="27" width="1299" height="741" />
     </state>
     <state x="413" y="27" width="587" height="741" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/67.27.1299.741@67.27.1299.741" timestamp="1583412170600" />
+    <state x="530" y="327" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1584916239373">
+      <screen x="0" y="0" width="1600" height="1160" />
+    </state>
+    <state x="530" y="327" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1600.1160@0.0.1600.1160" timestamp="1584916239373" />
     <state x="530" y="335" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1584481460369">
       <screen x="0" y="0" width="1600" height="1160" />
     </state>
@@ -247,10 +250,10 @@
     </state>
     <state x="473" y="286" key="NewPhpClassDialog/0.0.1600.1160@0.0.1600.1160" timestamp="1584269481272" />
     <state x="451" y="210" width="585" height="373" key="NewPhpClassDialog/67.27.1299.741@67.27.1299.741" timestamp="1583573194557" />
-    <state x="548" y="462" width="399" height="149" key="NewPhpFileDialog" timestamp="1584568095553">
+    <state x="548" y="462" width="399" height="149" key="NewPhpFileDialog" timestamp="1584911504540">
       <screen x="0" y="0" width="1600" height="1160" />
     </state>
-    <state x="548" y="462" key="NewPhpFileDialog/0.0.1600.1160@0.0.1600.1160" timestamp="1584568095553" />
+    <state x="548" y="462" key="NewPhpFileDialog/0.0.1600.1160@0.0.1600.1160" timestamp="1584911504540" />
     <state x="512" y="322" width="399" height="149" key="NewPhpFileDialog/67.27.1299.741@67.27.1299.741" timestamp="1583504326168" />
     <state x="170" y="6" key="SettingsEditor" timestamp="1584003262546">
       <screen x="0" y="0" width="1600" height="1160" />
