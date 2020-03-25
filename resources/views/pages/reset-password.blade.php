@@ -21,6 +21,8 @@
                         @error('newPassAgain')
                         <small id="emailHelp" class="form-text text-muted">{{$message}}</small>
                         @enderror
+                    <input type="hidden" name="token" value="{{$token}}">
+
                     <br>
                         <button type="submit" class="btn btn-primary">Promeniti</button>
                         @if(session('password-error'))

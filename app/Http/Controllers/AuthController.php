@@ -30,7 +30,10 @@ use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Validation\ValidationData;
+use Lcobucci\JWT\Parser;
 use Mockery\Exception;
+
 
 class AuthController extends Controller
 {
@@ -418,8 +421,12 @@ class AuthController extends Controller
     public function resetPassword(ResetPasswordRequest $request)
     {
         $data = $request->validated();
+        $tokenValue =  $data['token'];
+        $token = (new Parser())->parse($tokenValue);
+        $email =  $token->getClaims()['email'];
+
         try {
-            $user = $this->userService->resetPassword($data['email'],$data['newPass']);
+            $user = $this->userService->resetPassword($email,$data['newPass']);
             auth()->login($user);
             return redirect('/profile');
         }
@@ -437,6 +444,10 @@ class AuthController extends Controller
 
     public function removeComment(Request $request)
     {
+        if(!auth()->user()->can('remove-own-comment')){
+            abort(403);
+        }
+
         try {
             $this->userService->removeComment($request->input('commentId'),auth()->user()->id,$request->input('postId'));
             return redirect()->back();
@@ -456,7 +467,9 @@ class AuthController extends Controller
     public function editComment(CommentEditRequest $request)
     {
         $request->validated();
-
+        if(!auth()->user()->can('update-comment')){
+            abort(403);
+        }
         try {
 
             $this->userService->editComment($request->input('comment-edit'),auth()->user()->id,$request->input('commentId'),$request->input('postId'));

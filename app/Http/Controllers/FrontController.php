@@ -6,6 +6,7 @@ use App\Services\UserService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Lcobucci\JWT\Builder;
 use Mockery\Exception;
 
 class FrontController extends Controller
@@ -213,6 +214,14 @@ class FrontController extends Controller
 
     public function resetPassword(Request $request)
     {
-        return view('pages.reset-password');
+        $token = (new Builder())->setIssuer('JWT Token')
+                    ->setAudience('JWT Token')
+                    ->setIssuedAt(time())
+                    ->setExpiration(time() + 3600)
+                    ->withClaim('email',$request->all()['email'])
+                        ->getToken();
+
+
+        return view('pages.reset-password', ['token' => $token]);
     }
 }
