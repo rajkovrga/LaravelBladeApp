@@ -1,4 +1,4 @@
-
+</div>
 <!-- Footer -->
 <footer class="page-footer font-small blue">
 
@@ -9,7 +9,7 @@
     <!-- Copyright -->
 
 </footer>
-</div>
+
 <script src="{{url('js/axios.js')}}"></script>
 <script src="{{url('js/bootstrap.min.js')}}"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>

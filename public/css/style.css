@@ -6,9 +6,52 @@
     text-decoration: none;
 
 }
-nav
+nav.main-navbar
 {
-    margin-bottom:51px !important;
+    margin-bottom:50px !important;
+    background: rgba(20, 45, 76);
+
+}
+
+#btn-show, .btn{
+    background: #385170;
+    color: white;
+}
+
+.btn:hover
+{
+    transition: 0.4s;
+    background: #3a628a;
+}
+
+nav.main-navbar a, .navbar-nav > .nav-link, .navbar-brand{
+    color: #ececec !important;
+}
+
+#toggle
+{
+    position: relative;
+    z-index: 500;
+    color: white !important;
+}
+
+nav.main-navbar a:hover, .navbar-brand:hover
+{
+    color: #9fd3c7 !important;
+    transition: 0.4s;
+}
+
+.edit-comment
+{
+    top:0px;
+    z-index: 400;
+    right: 0px;
+}
+.btn-edit-comments
+{
+    border: none;
+    font-size: 19px;
+    margin-left: 15px;
 }
 
 .slide-img
@@ -18,7 +61,9 @@ nav
 }
 
 .page-footer{
+    margin-top: 150px;
     padding-top: 54px;
+    background: #ececec;
 }
 #home-page
 {
@@ -72,6 +117,15 @@ nav
     min-height: 165px !important;
 }
 
+.item-blog > span
+{
+    min-height: 165px !important;
+    background: rgba(56, 81, 112, 0.9);
+    color:#ececec;
+    padding: 10px 12px !important;
+    box-shadow: -4px 5px 5px rgba(20, 45, 76, 0.67);
+}
+
 #pagination
 {
     padding: 20px 0px;
@@ -108,7 +162,7 @@ blockquote:before {
     display: block;
     margin-bottom: 0.8em;
     font-weight: 400;
-    color: #668acc;
+    color: #385170;
 }
 
 blockquote > cite,
@@ -136,9 +190,21 @@ blockquote > p > cite {
 textarea{
     resize: none;
 }
+
+li.page-item.active > .page-link
+{
+    background: #1969d3 !important;
+}
+.page-link
+{
+    color:black;
+}
+
 .post-content
 {
     margin-bottom: 30px;
+    border-bottom: 3px solid black;
+    background: #ececec;
 }
 .items .item span{
 
@@ -146,6 +212,7 @@ textarea{
     padding:10px 4px;
 
 }
+
 #login-redirect
 {
     padding: 15px 0px;
@@ -156,6 +223,7 @@ textarea{
     border: 1px solid black;
     border-radius: 50%;
 }
+
 .comment-box{
     height: auto;
     width:100% !important;

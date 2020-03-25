@@ -2,23 +2,27 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d28620c4-462e-4c95-b2ad-d99499e49fb1" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Notifications/ResetPassword.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/mail/reset.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/pages/forget-password.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/herbsblog.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/herbsblog.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Exceptions/AuthException.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Exceptions/Handler.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Exceptions/Handler.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/AuthController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/AuthController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/FrontController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/FrontController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/PostController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/PostController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/Dashboard.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/Dashboard.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/CreatePostRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/CreatePostRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/PasswordChangeRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/PasswordChangeRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Notifications/ResetPassword.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Notifications/ResetPassword.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Services/PostService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/PostService.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Services/UserService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/UserService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/pages/auth.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/pages/auth.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/pages/forbidden.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/errors/403.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/pages/internal.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/errors/500.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/pages/notfound.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/errors/404.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/avatars/IMGUSER83875c675702021c862a23946f1b746449b0e9edf5a799c2d4a5182e3ce1288194df2e393f360924446be2a695ad0bba.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/script.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/fixed/footer.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/fixed/footer.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/fixed/head.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/fixed/head.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/fixed/nav.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/fixed/nav.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/pages/blog.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/pages/blog.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/pages/home.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/pages/home.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/pages/post.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/pages/post.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/pages/reset-password.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/pages/reset-password.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -144,6 +148,7 @@
       <path value="$PROJECT_DIR$/vendor/guzzlehttp/psr7" />
       <path value="$PROJECT_DIR$/vendor/ralouphie/getallheaders" />
       <path value="$PROJECT_DIR$/vendor/spatie/laravel-activitylog" />
+      <path value="$PROJECT_DIR$/vendor/lcobucci/jwt" />
     </include_path>
   </component>
   <component name="ProjectId" id="1YZrmYCfeCN7wPWlXEGHkzumesy" />
@@ -212,7 +217,9 @@
       <workItem from="1584541619698" duration="19685000" />
       <workItem from="1584737696228" duration="188000" />
       <workItem from="1584739441773" duration="20599000" />
-      <workItem from="1584882210732" duration="15971000" />
+      <workItem from="1584882210732" duration="18233000" />
+      <workItem from="1584991522612" duration="1745000" />
+      <workItem from="1585006984644" duration="24383000" />
     </task>
     <servers />
   </component>
@@ -260,10 +267,10 @@
     </state>
     <state x="170" y="6" key="SettingsEditor/0.0.1600.1160@0.0.1600.1160" timestamp="1584003262546" />
     <state x="205" y="31" key="SettingsEditor/67.27.1299.741@67.27.1299.741" timestamp="1583340554106" />
-    <state x="376" y="308" key="com.intellij.ide.util.TipDialog" timestamp="1584882213986">
+    <state x="376" y="308" key="com.intellij.ide.util.TipDialog" timestamp="1585007033126">
       <screen x="0" y="0" width="1600" height="1160" />
     </state>
-    <state x="376" y="308" key="com.intellij.ide.util.TipDialog/0.0.1600.1160@0.0.1600.1160" timestamp="1584882213986" />
+    <state x="376" y="308" key="com.intellij.ide.util.TipDialog/0.0.1600.1160@0.0.1600.1160" timestamp="1585007033126" />
     <state x="372" y="224" key="com.intellij.ide.util.TipDialog/67.27.1299.741@67.27.1299.741" timestamp="1583757287202" />
     <state x="380" y="61" width="662" height="670" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1583404408717">
       <screen x="67" y="27" width="1299" height="741" />

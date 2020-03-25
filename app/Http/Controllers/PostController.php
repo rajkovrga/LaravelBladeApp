@@ -8,9 +8,11 @@ use App\Http\Requests\CreatePostRequest;
 use App\Http\Requests\EditPostRequest;
 use App\Models\Post;
 use App\Services\PostService;
+use http\Exception\InvalidArgumentException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Mockery\Exception;
 
 class PostController extends Controller
 {
@@ -44,6 +46,11 @@ class PostController extends Controller
     public function createComment(CreateCommentRequest $request, $id)
     {
         $data = $request->validated();
+
+        if(!auth()->user()->can('create-comment')){
+            abort(403);
+        }
+
         try {
             $this->postService->createComment($data['comment-area'],auth()->user()->id,$id);
             return redirect()->back();
@@ -62,14 +69,17 @@ class PostController extends Controller
 
     public function like(Request $request)
     {
+        if(!auth()->user()->can('like')){
+            abort(403);
+        }
         try {
             $numberLikes = $this->postService->like($request->input('id'),auth()->user()->id);
             return response()->json(['number' => $numberLikes],200);
         }
-        catch (AuthException $er)
+        catch (ModelNotFoundException $er)
         {
             Log::error($er->getMessage());
-            return response()->json(['message' => 'User not logged'],403);
+            return response()->json(['message' => 'User not found'],404);
         }
         catch (\Exception $er)
         {
@@ -81,14 +91,18 @@ class PostController extends Controller
 
     public function unlike(Request $request)
     {
+        if(!auth()->user()->can('like')){
+            abort(403);
+        }
+
         try {
             $numberLikes = $this->postService->unlike($request->input('id'),auth()->user()->id);
             return response()->json(['number' => $numberLikes],200);
         }
-        catch (AuthException $er)
+        catch (ModelNotFoundException $er)
         {
             Log::error($er->getMessage());
-            return response()->json(['message' => 'User not logged'],403);
+            return response()->json(['message' => 'User not found'],404);
         }
         catch (\Exception $er)
         {
@@ -99,15 +113,18 @@ class PostController extends Controller
 
     public function likeComment(Request $request)
     {
+        if(!auth()->user()->can('like')){
+            abort(403);
+        }
 
         try {
             $numberLikes = $this->postService->likeComment($request->input('id'),auth()->user()->id, $request->input('postId'));
             return response()->json(['number' => $numberLikes],200);
         }
-        catch (AuthException $er)
+        catch (ModelNotFoundException $er)
         {
             Log::error($er->getMessage());
-            return response()->json(['message' => 'User not logged'],403);
+            return response()->json(['message' => 'User not found'],404);
         }
         catch (\Exception $er)
         {
@@ -118,14 +135,18 @@ class PostController extends Controller
 
     public function unlikeComment(Request $request)
     {
+        if(!auth()->user()->can('like')){
+            abort(403);
+        }
+
         try {
             $numberLikes = $this->postService->unlikeComment($request->input('id'),auth()->user()->id, $request->input('postId'));
             return response()->json(['number' => $numberLikes],200);
         }
-        catch (AuthException $er)
+        catch (ModelNotFoundException $er)
         {
             Log::error($er->getMessage());
-            return response()->json(['message' => 'User not logged'],403);
+            return response()->json(['message' => 'User not found'],404);
         }
         catch (\Exception $er)
         {
@@ -137,6 +158,11 @@ class PostController extends Controller
     public function edit(EditPostRequest $request, $id)
     {
         $data = $request->validated();
+
+        if(!auth()->user()->can('update-post')){
+            abort(403);
+        }
+
         try {
 
             $this->postService->edit($id,$data['title'],$data['desc']);
@@ -160,6 +186,11 @@ class PostController extends Controller
 
     public function delete($id)
     {
+
+        if(!auth()->user()->can('delete-post')){
+            abort(403);
+        }
+
         try {
             $this->postService->delete($id);
             return redirect('/result')->with([
@@ -186,6 +217,9 @@ class PostController extends Controller
         {
             $data = $request->validated();
 
+            if(!auth()->user()->can('add-post'))
+                abort(403);
+
             try {
                 $post = $this->postService->create($data['title'], $data['desc'],auth()->user()->id);
 
@@ -206,5 +240,6 @@ class PostController extends Controller
                 ]);
             }
         }
+
 
 }

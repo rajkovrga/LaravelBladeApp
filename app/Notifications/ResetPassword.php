@@ -44,7 +44,7 @@ class ResetPassword extends Notification
     {
         return (new MailMessage)
                     ->view('mail.reset',[
-                       'url' => URL::temporarySignedRoute('reset.password',now()->setMinutes(30),[
+                       'url' => URL::temporarySignedRoute('reset.password',now()->setMinutes(45),[
                            'email' => $this->email
                        ])
                     ]);

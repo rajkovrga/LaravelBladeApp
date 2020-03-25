@@ -9,7 +9,7 @@
             <h2 id="verify-title">Promena lozinke</h2>
 
 
-                <form method="post" action="/reset/password" class="collapse d-flex flex-column align-items-center">
+                <form method="post" action="{{url('/reset/password/form')}}" class="collapse d-flex flex-column align-items-center">
                     @csrf
                         <label for="newPass">Nova lozinka</label>
                         <input type="password" name="newPass" id="newPass" class="form-control">

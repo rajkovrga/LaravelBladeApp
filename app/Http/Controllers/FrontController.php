@@ -72,11 +72,6 @@ class FrontController extends Controller
         return view('pages.result');
     }
 
-    public function forbidden()
-    {
-        return view('pages.forbidden');
-    }
-
     public function contact()
     {
         return view('pages.contact');
@@ -119,7 +114,6 @@ class FrontController extends Controller
 
     public function dashboard()
     {
-
         return view('pages.dashboard');
     }
 
@@ -131,11 +125,6 @@ class FrontController extends Controller
         }
 
         return view('pages.dashboard-insert-post');
-    }
-
-    public function notfound()
-    {
-        return view('pages.notfound');
     }
 
     public function topPost()
@@ -199,6 +188,7 @@ class FrontController extends Controller
 
     public function userActivities()
     {
+
 
         try {
             $activities = $this->userService->getActivities();

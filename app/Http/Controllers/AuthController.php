@@ -10,6 +10,7 @@ use App\Exceptions\PasswordNotException;
 use App\Exceptions\VerifyException;
 use App\Http\Requests\ChangeRoleRequest;
 use App\Http\Requests\ChangeUsernameRequest;
+use App\Http\Requests\CommentEditRequest;
 use App\Http\Requests\ContactRequest;
 use App\Http\Requests\DownloadActivitiesRequest;
 use App\Http\Requests\EmailRequest;
@@ -17,6 +18,7 @@ use App\Http\Requests\FileRequest;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\PasswordChangeRequest;
 use App\Http\Requests\RegistartionRequest;
+use App\Http\Requests\ResetPasswordRequest;
 use App\Notifications\ContactNotify;
 use App\Notifications\ResetPassword;
 use App\Notifications\VerifyNofify;
@@ -200,6 +202,10 @@ class AuthController extends Controller
     {
         $data = $request->validated();
 
+        if(!auth()->user()->can('change-email')){
+            abort(403);
+        }
+
         try {
             $this->userService->changeEmail(auth()->user()->id, $data['email']);
 
@@ -226,6 +232,10 @@ class AuthController extends Controller
     {
         $data = $request->validated();
 
+        if(!auth()->user()->can('chage-username')){
+            abort(403);
+        }
+
         try {
             $this->userService->changeUsername(auth()->user()->id, $data['username']);
             return redirect()->back()->with(['error-uname' => 'Uspešno promenjeno']);
@@ -249,6 +259,9 @@ class AuthController extends Controller
 
     public function deactiveUser(Request $request)
     {
+        if(!auth()->user()->can('change-avatar')){
+            abort(403);
+        }
 
         try {
             $this->userService->deactiveUser(auth()->user()->id);
@@ -271,6 +284,10 @@ class AuthController extends Controller
     public function changePassword(PasswordChangeRequest $request)
     {
         $data = $request->validated();
+
+        if(!auth()->user()->can('change-avatar')){
+            abort(403);
+        }
 
         try {
             $this->userService->changePassword($data['oldPass'], $data['newPass'], auth()->user()->id);
@@ -296,6 +313,10 @@ class AuthController extends Controller
     public function changeImage(FileRequest $request)
     {
         $request->validated();
+
+        if(!auth()->user()->can('change-avatar')){
+            abort(403);
+        }
 
         $image = $request->file('file');
 
@@ -346,6 +367,10 @@ class AuthController extends Controller
     {
         $date = $request->validated();
 
+        if(!auth()->user()->can('change-role')){
+            abort(403);
+        }
+
         try {
 
             if($request->username == auth()->user()->username)
@@ -390,5 +415,64 @@ class AuthController extends Controller
         }
     }
 
+    public function resetPassword(ResetPasswordRequest $request)
+    {
+        $data = $request->validated();
+        try {
+            $user = $this->userService->resetPassword($data['email'],$data['newPass']);
+            auth()->login($user);
+            return redirect('/profile');
+        }
+        catch (ModelNotFoundException $er)
+        {
+            Log::error($er->getMessage());
+            return redirect()->back()->with(['error' => 'Ne postoji korisnik']);
+        }
+        catch (Exception $er)
+        {
+            Log::error($er->getMessage());
+            return redirect()->back()->with(['error' => 'Došlo je do greške']);
+        }
+    }
+
+    public function removeComment(Request $request)
+    {
+        try {
+            $this->userService->removeComment($request->input('commentId'),auth()->user()->id,$request->input('postId'));
+            return redirect()->back();
+        }
+        catch (ModelNotFoundException $er)
+        {
+            Log::error($er->getMessage());
+            return redirect()->back()->with(['error-comment-edit' => 'Korisnik ne postoji']);
+        }
+        catch (Exception $er)
+        {
+            Log::error($er->getMessage());
+            return redirect()->back()->with(['error-comment-edit' => 'Došlo je do greške']);
+        }
+    }
+
+    public function editComment(CommentEditRequest $request)
+    {
+        $request->validated();
+
+        try {
+
+            $this->userService->editComment($request->input('comment-edit'),auth()->user()->id,$request->input('commentId'),$request->input('postId'));
+
+            return redirect()->back();
+        }
+        catch (ModelNotFoundException $er)
+        {
+            Log::error($er->getMessage());
+            return redirect()->back()->with(['error-comment-edit' => 'Korisnik ne postoji']);
+        }
+        catch (Exception $er)
+        {
+            Log::error($er->getMessage());
+            return redirect()->back()->with(['error-comment-edit' => 'Došlo je do greške']);
+        }
+    }
 
 }

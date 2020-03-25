@@ -205,5 +205,27 @@ class UserService
         return $user;
     }
 
+    public function resetPassword($email, $password)
+    {
+        $user = User::query()->where('email',$email)->firstOrFail();
+        $user->password = bcrypt($password);
+        $user->saveOrFail();
 
+        return $user;
+    }
+
+    public function removeComment($commentId, $userId, $postId)
+    {
+        $user = User::query()->findOrFail($userId);
+
+        $user->comments()->wherePivot('id',$commentId)->detach($postId);
+    }
+
+    public function editComment($desc, $userId, $commentId, $postId)
+    {
+        $user = User::query()->findOrFail($userId);
+
+        $user->comments()->wherePivot('id', $commentId)->updateExistingPivot($postId,['desc' => $desc]);
+
+    }
 }

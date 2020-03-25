@@ -34,7 +34,7 @@ class PostService
     public function comments($id, $userId,$page = 1)
     {
         $comments = DB::table('comments')->select(DB::raw('comments.desc'),
-            DB::raw('comments.id'), DB::raw('users.username'),DB::raw('users.image_url')
+            DB::raw('comments.id'), DB::raw('users.username'), DB::raw('users.id as userId'),DB::raw('users.image_url')
             ,DB::raw('count(comment_likes.comment_id) as numberLikes'))
             ->addSelect(['user_liked' => DB::table('comment_likes')
                 ->select(DB::raw('count(*)'))

@@ -12,8 +12,10 @@ document.addEventListener("DOMContentLoaded",function() {
                     if (result.data.current_page == result.data.last_page) {
                         moreCommentsBtn.style.display = "none"
                     }
+                    console.log(result.data)
                     let newData = "";
                     result.data.data.forEach((row) => {
+
                         newData += `<div class="row">
                         <div class="col-3 d-flex text-center justify-content-center align-items-center flex-column">
                             <img src="`;
@@ -61,6 +63,9 @@ document.addEventListener("DOMContentLoaded",function() {
         if (likeButton.classList.contains('liked-button')) {
             axios.post('/post/unlike', {id})
                 .then((result) => {
+                    if(result.data.number == undefined)
+                            window.location.assign( '/login')
+
                     likes.innerHTML = result.data.number;
                     likeButton.classList.remove('liked-button');
                     likeButton.classList.add('like-button');
@@ -69,12 +74,17 @@ document.addEventListener("DOMContentLoaded",function() {
         } else {
             axios.post('/post/like', {id})
                 .then((result) => {
+                    if(result.data.number == undefined)
+                            window.location.assign( '/login')
+
                     likes.innerHTML = result.data.number;
                     likeButton.classList.remove('like-button');
                     likeButton.classList.add('liked-button');
                 })
-                .catch((err) =>  window.location.href = '/login')
-        }
+                .catch((err) =>  {
+                    window.location.assign( '/login')
+                })
+}
     })
 
     checkLikeComment()
@@ -91,21 +101,25 @@ document.addEventListener("DOMContentLoaded",function() {
                 {
                     axios.post('/comment/unlike',{id,postId})
                         .then((result) => {
+                            if(result.data.number[0].number == undefined)
+                                window.location.assign( '/login')
                             commentLikes[i].innerHTML = result.data.number[0].number;
                             commentLikeButton[i].classList.remove('heart-red');
                             commentLikeButton[i].classList.add('heart-classic');
                         })
-                        .catch((err) => console.log(err))
+                        .catch((err) =>  window.location.assign( '/login'))
                 }
                 else
                 {
                     axios.post('/comment/like',{id})
                         .then((result) => {
+                            if(result.data.number[0].number == undefined)
+                                window.location.assign( '/login')
                             commentLikes[i].innerHTML = result.data.number[0].number;
                             commentLikeButton[i].classList.remove('heart-classic');
                             commentLikeButton[i].classList.add('heart-red');
                         })
-                        .catch((err) => console.log(err))
+                        .catch((err) =>  window.location.assign( '/login'))
                 }
             })
         }

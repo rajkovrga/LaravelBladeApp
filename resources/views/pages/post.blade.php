@@ -3,7 +3,7 @@
 @section('content')
 
         <div class="col-12 d-flex justify-content-center flex-column align-items-center">
-            <div class="bg-primary post-content col-11 col col-xl-5 col-md-5 ">
+            <div class=" post-content col-11 col col-xl-5 col-md-5 ">
                 <h4>{{$data->title}}</h4>
                 <p>{{$data->desc}}</p>
                 <div class="col-12 d-flex justify-content-between">
@@ -100,7 +100,7 @@
                 </div>
             </div>
 
-            <div class="border-primary border col-12 col col-xl-5 col-md-5 d-flex flex-column justify-content-center align-items-center">
+            <div class="border-dark border col-12 col col-xl-5 col-md-5 d-flex flex-column justify-content-center align-items-center">
                 <span id="comments" class="col-12">
                 <div class=" col-12 comments">
                     @if(auth()->check())
@@ -114,6 +114,12 @@
                             @error('comment-area')
                 <small id="emailHelp" class="form-text text-muted">{{$message}}</small>
                 @enderror
+                            @error('comment-edit')
+                                            <p><b>{{$message}}</b></p>
+                                        @enderror
+                            @if(session('error-comment-edit'))
+                                <p><b>{{session('error-comment-edit')}}</b></p>
+                            @endif
 
                 <small id="emailHelp" class="form-text text-muted">
                     @if(session('error'))
@@ -125,7 +131,7 @@
                     </div>
                     @endif
                         @if(!auth()->check())
-                            <div id="login-redirect" class="col-12 border-bottom border-primary text-center d-flex align-items-center flex-column">
+                            <div id="login-redirect" class="col-12 border-bottom border-dark mb-4 text-center d-flex align-items-center flex-column">
                         <p>Ulogujte se i ostavite komentar</p>
                         <a href="{{url('/login')}}" class="btn btn-primary">Uloguj se</a>
                     </div>
@@ -135,14 +141,35 @@
 
 
                     @foreach($comments as $item)
-                    <div class="row comment-box">
+                    <div class="row comment-box position-relative">
+                        @if(auth()->check())
+                            @if($item->userId == auth()->user()->id)
+
+
+                            <div class="position-absolute edit-comment d-flex justify-content-center flex-row-reverse">
+                                <form action="/remove/comment" method="post">
+                                    @csrf
+                                    <input type="hidden" name="commentId" value="{{$item->id}}">
+                                    <input type="hidden" name="postId" value="{{$data->id}}">
+                                  <button type="submit" class=" btn-edit-comments">
+                                      <i class="fa fa-window-close" aria-hidden="true"></i>
+                                  </button>
+                                </form>
+
+                                    <button type="submit" class=" btn-edit-comments" data-toggle="modal" data-target="#exampleModal">
+                                      <i class="fa fa-pencil" aria-hidden="true"></i>
+                                  </button>
+
+                            </div>
+                            @endif
+                        @endif
                         <div class="col-3 d-flex text-center justify-content-start align-items-center flex-column">
                             <img src=" @if(isset($item->image_url))
                             {{asset('/images/avatars/' . $item->image_url)}}
                             @else
                             {{asset('/images/avatar.jpg')}}
                             @endif" alt="avatar" class="image-avatar">
-                            <span>{{$item->username}}   </span>
+                            <span>{{$item->username}}  </span>
                             <span class="d-flex justify-content-center flex-column align-items-center">
                                 <i class="heart-item fa fa-heart
                                  @if($item->user_liked != 0)
@@ -155,25 +182,59 @@
                                 <p class="count-comment-likes" id="count-comment-likes">{{$item->numberLikes}}</p>
                             </span>
                         </div>
+
                         <div class="col-9 ">
                             <p> {{$item->desc}} </p>
+                            @if(auth()->check())
+                                @if($item->userId == auth()->user()->id)
+                            <!-- Modal -->
+                                    <form action="/comment/edit" method="post">
+                                        @csrf
+                                    <div class="modal fade" id="exampleModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Izmena objave</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                 <input type="hidden" name="commentId" value="{{$item->id}}">
+                                                <input type="hidden" name="postId" value="{{$data->id}}">
+                                                <textarea  class="form-control form-comment" name="comment-edit" id="comment-area" rows="2">{{$item->desc}}</textarea>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-primary">Izmeni</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+
+                                        </form>
+                                    @endif
+                                @endif
+
+
                         </div>
+
                     </div>
+
                     @endforeach
 
                     </span>
                 </div>
 
                 @if($comments->currentPage() != $comments->lastPage())
-                    <div id="more-comments" data-page="{{$comments->currentPage()}}" data-id="{{$data->id}}" class="col-12 text-center border border-primary">
+                    <div id="more-comments" data-page="{{$comments->currentPage()}}" data-id="{{$data->id}}" class="col-12 text-center bg-secondary">
                     <p>Jos komentara</p>
                 </div>
                     @endif
 
-</span>
+            </span>
             </div>
         </div>
-
 
 
 

@@ -63,7 +63,7 @@
         <p>Na pravom ste mestu</p>
         <p>Procitajte najnovije odgovore na najpoznatija pitanja koja su oduvek mnogima bila nedoumica</p>
         <div class="col-12 d-flex justify-content-center">
-            <a href="/blog" class="btn btn-primary btn-md" role="button" aria-disabled="true">Pogledati</a>
+            <a href="/blog" class="btn btn-md" id="btn-show" role="button" aria-disabled="true">Pogledati</a>
         </div>
     </div>
 </div>
